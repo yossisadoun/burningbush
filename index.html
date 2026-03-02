@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Burning Bush</title>
+  <meta name="description" content="Burning Bush — Build what the wind brings us...">
+  <meta property="og:title" content="Burning Bush">
+  <meta property="og:description" content="Build what the wind brings us...">
+  <meta property="og:type" content="website">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔥</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sono:wght@300;400&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      height: 100%;
+    }
+
+    body {
+      background: #050505;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      font-family: 'Sono', sans-serif;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    .bg-layer {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      transition: opacity 2.5s ease;
+    }
+    .bg-back { opacity: 1; }
+    .bg-front { opacity: 1; }
+
+    .content, .email-wrapper {
+      position: relative;
+      z-index: 1;
+    }
+
+    .content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3rem;
+      padding: 2rem;
+      flex: 1;
+      justify-content: center;
+    }
+
+    .logo-wrap {
+      position: relative;
+      width: min(420px, 80vw);
+      cursor: pointer;
+    }
+
+    .logo {
+      width: 100%;
+      height: auto;
+      display: block;
+      filter:
+        invert(1)
+        brightness(2)
+        drop-shadow(0 0 20px rgba(131, 56, 236, 0.4))
+        drop-shadow(0 0 60px rgba(255, 0, 110, 0.2))
+        drop-shadow(0 0 100px rgba(58, 134, 255, 0.15));
+    }
+
+    .logo-back {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: auto;
+      display: block;
+      opacity: 0;
+      transition: opacity 2.5s ease;
+    }
+
+    .logo-front {
+      position: relative;
+      transition: opacity 2.5s ease;
+    }
+
+    .mission {
+      font-size: clamp(1.25rem, 3vw, 1.75rem);
+      font-weight: 300;
+      letter-spacing: 0.04em;
+      color: #ffffff;
+      text-align: center;
+      transition: color 2.5s ease, opacity 0.6s ease;
+    }
+
+    .about {
+      max-width: 520px;
+      font-size: clamp(0.9rem, 2vw, 1.05rem);
+      font-weight: 300;
+      line-height: 1.8;
+      color: #aaa;
+      text-align: center;
+      letter-spacing: 0.02em;
+      opacity: 0;
+      transition: color 2.5s ease, opacity 0.6s ease;
+      position: absolute;
+      pointer-events: none;
+    }
+
+    .about.visible {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .content.expanded .logo-wrap {
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.6s ease;
+    }
+
+    .content.expanded .mission {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .email-wrapper {
+      position: fixed;
+      bottom: 2.5rem;
+      left: 0;
+      right: 0;
+      text-align: center;
+    }
+
+    .email {
+      color: #555;
+      text-decoration: none;
+      font-size: 0.875rem;
+      font-weight: 300;
+      letter-spacing: 0.08em;
+      transition: color 2.5s ease, text-shadow 0.5s ease;
+    }
+
+    .email:hover {
+      color: #c0c0c0;
+      text-shadow:
+        0 0 10px rgba(131, 56, 236, 0.5),
+        0 0 30px rgba(255, 0, 110, 0.2);
+    }
+
+  </style>
+</head>
+<body>
+  <div class="bg-layer bg-back" id="bgBack"></div>
+  <div class="bg-layer bg-front" id="bgFront" style="background: #050505;"></div>
+  <main class="content">
+    <div class="logo-wrap" id="logoWrap">
+      <img src="logo.svg" alt="" class="logo logo-back" id="logoBack">
+      <img src="logo.svg" alt="Burning Bush" class="logo logo-front" id="logoFront">
+    </div>
+    <p class="mission">behold, the bush was burning,<br>yet it was not consumed.</p>
+    <p class="about" id="about">We build the things we feel like building, with or without AI we guess. We enjoy the process and the outcomes and choose the things we'll be proud telling other people about, big or small (the things, not the people. The people's size don't matter to us at this point). And who is "we"!? for heaven's sake.</p>
+  </main>
+  <script>
+    const logoWrap = document.getElementById('logoWrap');
+    const about = document.getElementById('about');
+    const content = document.querySelector('.content');
+    let expanded = false;
+
+    logoWrap.addEventListener('click', () => {
+      expanded = true;
+      content.classList.add('expanded');
+      about.classList.add('visible');
+    });
+
+    about.addEventListener('click', () => {
+      expanded = false;
+      content.classList.remove('expanded');
+      about.classList.remove('visible');
+    });
+  </script>
+  <div class="email-wrapper">
+    <a href="mailto:yossi@burning-bush.com" class="email">yossi@burning-bush.com</a>
+  </div>
+
+  <script>
+    const themes = [
+      { name: 'Neon Dark (current)', bg: '#050505', logo: 'invert(1) brightness(2) drop-shadow(0 0 20px rgba(131,56,236,0.4)) drop-shadow(0 0 60px rgba(255,0,110,0.2)) drop-shadow(0 0 100px rgba(58,134,255,0.15))', text: '#ffffff', email: '#555', about: '#aaa' },
+      { name: 'Midnight Blue', bg: '#0a0e1a', logo: 'invert(1) brightness(2) drop-shadow(0 0 25px rgba(100,149,237,0.5))', text: '#c8d6f0', email: '#4a5a80', about: '#8899bb' },
+      { name: 'Deep Charcoal', bg: '#1a1a1a', logo: 'invert(1) brightness(1.8) drop-shadow(0 0 15px rgba(255,255,255,0.15))', text: '#e0e0e0', email: '#666', about: '#999' },
+      { name: 'Warm Black + Gold', bg: '#0d0b07', logo: 'invert(1) brightness(1.5) sepia(1) saturate(3) hue-rotate(5deg) drop-shadow(0 0 30px rgba(218,165,32,0.4))', text: '#d4a843', email: '#6b5a2e', about: '#a08840' },
+      { name: 'Bone White + Black', bg: '#f0ece4', logo: 'brightness(0) drop-shadow(0 0 10px rgba(0,0,0,0.1))', text: '#1a1a1a', email: '#999', about: '#555' },
+      { name: 'Cream + Rust', bg: '#faf5ef', logo: 'brightness(0) sepia(1) saturate(5) hue-rotate(340deg) drop-shadow(0 0 12px rgba(180,60,30,0.2))', text: '#8b3a2a', email: '#bba090', about: '#9b5a4a' },
+      { name: 'Forest', bg: '#0a1208', logo: 'invert(1) brightness(1.5) sepia(1) saturate(2) hue-rotate(80deg) drop-shadow(0 0 30px rgba(80,200,80,0.3))', text: '#7dba6d', email: '#3a5a30', about: '#6a9a5a' },
+      { name: 'Plum + Lavender', bg: '#1a0a20', logo: 'invert(1) brightness(1.8) sepia(1) saturate(3) hue-rotate(260deg) drop-shadow(0 0 30px rgba(180,100,255,0.4))', text: '#d4b8f0', email: '#6a4a80', about: '#a080c0' },
+      { name: 'Ice White', bg: '#f5f8fc', logo: 'brightness(0) opacity(0.8) drop-shadow(0 0 20px rgba(100,150,200,0.2))', text: '#2a3a50', email: '#a0b0c0', about: '#5a6a80' },
+      { name: 'Red + Off-white', bg: '#faf6f2', logo: 'brightness(0) sepia(1) saturate(20) hue-rotate(0deg) drop-shadow(0 0 12px rgba(200,0,0,0.15))', text: '#c0392b', email: '#d0a0a0', about: '#a04030' },
+      { name: 'Gradient — Dusk', bg: 'linear-gradient(160deg, #0f0c29, #302b63, #24243e)', logo: 'invert(1) brightness(2) drop-shadow(0 0 25px rgba(140,100,255,0.5))', text: '#e0d0ff', email: '#5a4a80', about: '#a090cc' },
+      { name: 'Gradient — Ember', bg: 'linear-gradient(160deg, #1a0000, #3d0c02, #1a0505)', logo: 'invert(1) brightness(1.6) sepia(1) saturate(4) hue-rotate(350deg) drop-shadow(0 0 30px rgba(255,80,20,0.4))', text: '#ff9a76', email: '#6b3a2a', about: '#cc7755' },
+      { name: 'Gradient — Ocean', bg: 'linear-gradient(160deg, #0c1220, #0a2a3a, #0c1a28)', logo: 'invert(1) brightness(2) sepia(1) saturate(2) hue-rotate(160deg) drop-shadow(0 0 25px rgba(0,200,200,0.4))', text: '#70d4d4', email: '#2a5a5a', about: '#50a0a0' },
+      { name: 'Gradient — Aurora', bg: 'linear-gradient(160deg, #0a0a1a, #1a0a2a, #0a1a1a)', logo: 'invert(1) brightness(2) drop-shadow(0 0 20px rgba(100,255,150,0.3)) drop-shadow(0 0 50px rgba(150,50,255,0.3))', text: '#a0f0c0', email: '#3a6a4a', about: '#70c090' },
+      { name: 'Gradient — Sunset', bg: 'linear-gradient(160deg, #1a0a10, #2a1020, #1a1020)', logo: 'invert(1) brightness(1.8) sepia(1) saturate(3) hue-rotate(320deg) drop-shadow(0 0 25px rgba(255,100,150,0.4))', text: '#ffa0c0', email: '#6a3050', about: '#cc7090' },
+      { name: 'Gradient — Peach', bg: 'linear-gradient(120deg, #f6d365 0%, #fda085 100%)', logo: 'brightness(0) drop-shadow(0 0 12px rgba(180,80,30,0.2))', text: '#5a2a10', email: '#c09070', about: '#7a4a30' },
+      { name: 'Gradient — Mint', bg: 'linear-gradient(120deg, #84fab0 0%, #8fd3f4 100%)', logo: 'brightness(0) drop-shadow(0 0 12px rgba(0,80,80,0.2))', text: '#1a3a3a', email: '#508080', about: '#2a5a5a' },
+      { name: 'Gradient — Cotton Candy', bg: 'linear-gradient(to top, #a8edea 0%, #fed6e3 100%)', logo: 'brightness(0) drop-shadow(0 0 12px rgba(100,50,80,0.2))', text: '#3a2a30', email: '#907080', about: '#5a4a50' },
+    ];
+
+    let currentTheme = 0;
+    let transitioning = false;
+    const logoFront = document.getElementById('logoFront');
+    const logoBack = document.getElementById('logoBack');
+    const missionEl = document.querySelector('.mission');
+    const aboutEl2 = document.getElementById('about');
+    const emailEl = document.querySelector('.email');
+    const bgFront = document.getElementById('bgFront');
+    const bgBack = document.getElementById('bgBack');
+
+    function applyTheme(i) {
+      if (transitioning) return;
+      const t = themes[i];
+      transitioning = true;
+
+      bgBack.style.background = t.bg;
+
+      logoBack.style.transition = 'none';
+      logoBack.style.filter = t.logo;
+      logoBack.style.opacity = '0';
+      void logoBack.offsetHeight;
+      logoBack.style.transition = 'opacity 2.5s ease';
+
+      bgFront.style.opacity = '0';
+      logoFront.style.opacity = '0';
+      logoBack.style.opacity = '1';
+
+      missionEl.style.color = t.text;
+      aboutEl2.style.color = t.about;
+      emailEl.style.color = t.email;
+
+      setTimeout(() => {
+        bgFront.style.transition = 'none';
+        bgFront.style.background = t.bg;
+        bgFront.style.opacity = '1';
+        logoFront.style.transition = 'none';
+        logoFront.style.filter = t.logo;
+        logoFront.style.opacity = '1';
+        logoBack.style.transition = 'none';
+        logoBack.style.opacity = '0';
+        void bgFront.offsetHeight;
+        bgFront.style.transition = 'opacity 2.5s ease';
+        logoFront.style.transition = 'opacity 2.5s ease';
+        logoBack.style.transition = 'opacity 2.5s ease';
+        transitioning = false;
+      }, 2600);
+    }
+
+    setInterval(() => {
+      let next;
+      do { next = Math.floor(Math.random() * themes.length); } while (next === currentTheme);
+      currentTheme = next;
+      applyTheme(currentTheme);
+    }, 5000);
+  </script>
+</body>
+</html>
