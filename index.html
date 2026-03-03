@@ -230,6 +230,41 @@
       transition: opacity 0.6s ease;
     }
 
+    .overlay-close {
+      position: absolute;
+      top: clamp(8px, 2.5vw, 14px);
+      right: clamp(8px, 2.5vw, 14px);
+      width: clamp(34px, 8vw, 40px);
+      height: clamp(34px, 8vw, 40px);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      border-radius: 999px;
+      background: rgba(10, 10, 10, 0.28);
+      color: #ddd;
+      display: grid;
+      place-items: center;
+      cursor: pointer;
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      z-index: 3;
+      transition: transform 0.2s ease, background 0.2s ease, color 0.2s ease;
+    }
+
+    .overlay-close:hover {
+      transform: scale(1.05);
+      background: rgba(10, 10, 10, 0.45);
+      color: #fff;
+    }
+
+    .overlay-close svg {
+      width: 18px;
+      height: 18px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2.2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
     .project-detail.visible {
       opacity: 1;
       pointer-events: auto;
@@ -304,7 +339,7 @@
 
     .about {
       width: min(520px, 85vw);
-      padding: 0 1.5rem;
+      padding: 3.2rem 1.5rem 0;
       font-size: clamp(0.9rem, 2vw, 1.05rem);
       font-weight: 300;
       line-height: 1.8;
@@ -316,6 +351,11 @@
       transition: color 2.5s ease, opacity 0.6s ease, visibility 0s linear 0.6s;
       position: absolute;
       pointer-events: none;
+    }
+
+    .about .overlay-close {
+      top: 0;
+      right: 0;
     }
 
     .about.visible {
@@ -377,12 +417,20 @@
       <a href="#" class="project-link" data-project="reveal"><img src="projects/reveal.png" alt="Reveal" class="project-icon"></a>
     </div>
     <div class="project-detail" id="projectDetail">
+      <button class="overlay-close" id="projectCloseBtn" aria-label="Close project details">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg>
+      </button>
       <img class="project-detail-icon" id="projectDetailIcon" src="" alt="">
       <p class="project-detail-name" id="projectDetailName"></p>
       <p class="project-detail-blurb" id="projectDetailBlurb"></p>
       <div class="project-detail-links" id="projectDetailLinks"></div>
     </div>
-    <p class="about" id="about">We build the things we feel like building, with or without AI we guess. We enjoy the process and the outcomes and choose the things we'll be proud telling other people about, big or small (the things, not the people. The people's size don't matter to us at this point). And who is "we"!? for heaven's sake.</p>
+    <div class="about" id="about" role="dialog" aria-label="About Burning Bush">
+      <button class="overlay-close" id="aboutCloseBtn" aria-label="Close about">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg>
+      </button>
+      We build the things we feel like building, with or without AI we guess. We enjoy the process and the outcomes and choose the things we'll be proud telling other people about, big or small (the things, not the people. The people's size don't matter to us at this point). And who is "we"!? for heaven's sake.
+    </div>
   </main>
   <script>
     const logoWrap = document.getElementById('logoWrap');
