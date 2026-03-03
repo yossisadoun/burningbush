@@ -1,0 +1,28 @@
+{
+  "lavajump": {
+    "name": "Lava Jump",
+    "icon": "projects/lavajump_1_1x.webp",
+    "blurb": "We wanted our kids to learn while staring at a screen, so we built a game where they jump over lava and accidentally learn letters and numbers. It works. They think they're playing.",
+    "links": [
+      { "label": "App Store", "icon": "apple", "url": "https://apps.apple.com/us/app/lava-jump-learn-play-3-8-yo/id6756043343" },
+      { "label": "Web", "icon": "globe", "url": "https://yossisadoun.github.io/lava-jump/" }
+    ]
+  },
+  "bookluv": {
+    "name": "BookLuv",
+    "icon": "projects/bookluv_1_1x.webp",
+    "blurb": "We kept finishing books and realizing we missed half the point. So we built a thing that gives you the full picture — videos, timelines, context, podcasts, the \u201cdid you know\u201d. Add a book, get the world around it.",
+    "links": [
+      { "label": "Web", "icon": "globe", "url": "https://yossisadoun.github.io/book_review/" }
+    ]
+  },
+  "reveal": {
+    "name": "Reveal",
+    "icon": "projects/reveal_1_1x.webp",
+    "blurb": "We envied Apple's hello animation and wanted to easily replicate them for any scribble. So we built a thing — pick your layers in Figma, animate them on a timeline, export to video, GIF, or SVG. It's a Figma plugin that makes your vectors move. That's it. That's the whole pitch.",
+    "links": [
+      { "label": "Figma Plugin", "icon": "figma", "url": "https://www.figma.com/community/plugin/1603794604656686212/reveal-vector-path-animation" },
+      { "label": "Demo File", "icon": "figma", "url": "https://www.figma.com/community/file/1607874854121101597/reveal-figma-plugin" }
+    ]
+  }
+}

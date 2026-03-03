@@ -335,38 +335,14 @@
   const closeBtn = document.getElementById('closeBtn');
   let activeOverlay = null;
 
-  const svgApple = '<svg viewBox="0 0 24 24"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>';
-  const svgGlobe = '<svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>';
-  const svgFigma = '<svg viewBox="0 0 24 24"><path d="M15.852 8.981h-4.588V0h4.588c2.476 0 4.49 2.014 4.49 4.49s-2.014 4.491-4.49 4.491zM12.735 7.51h3.117c1.665 0 3.019-1.355 3.019-3.019s-1.354-3.02-3.019-3.02h-3.117V7.51zm0 13.01h-3.117c-2.476 0-4.49-2.014-4.49-4.49s2.014-4.49 4.49-4.49h3.117v8.98zm-3.117-7.51c-1.665 0-3.019 1.355-3.019 3.02s1.354 3.02 3.019 3.02h1.647V13.01H9.618zm4.588-1.47H8.148c-2.476 0-4.49-2.014-4.49-4.49S5.672 2.56 8.148 2.56h6.058v8.98zm-4.588-7.51c-1.665 0-3.019 1.354-3.019 3.019s1.354 3.02 3.019 3.02h3.117V1.49h-3.117v4.54z"/><circle cx="15.852" cy="15.521" r="3.019"/></svg>';
-
-  const projectData = {
-    lavajump: {
-      name: 'Lava Jump',
-      icon: 'projects/lavajump_1_1x.webp',
-      blurb: 'We wanted our kids to actually learn something while staring at a screen, so we built a game where they jump over lava and accidentally learn letters and numbers. It works. They think they\'re playing. We know better.',
-      links: [
-        { label: 'App Store', icon: svgApple, url: 'https://apps.apple.com/us/app/lava-jump-learn-play-3-8-yo/id6756043343' },
-        { label: 'Web', icon: svgGlobe, url: 'https://yossisadoun.github.io/lava-jump/' }
-      ]
-    },
-    bookluv: {
-      name: 'BookLuv',
-      icon: 'projects/bookluv_1_1x.webp',
-      blurb: 'We kept finishing books and realizing we missed half the point. So we built a thing that gives you the full picture \u2014 characters, timelines, context, maps, the \u201Cdid you know\u201D stuff your English teacher never mentioned. Add a book, get the world around it. No more Wikipedia rabbit holes at 2am (okay, fewer).',
-      links: [
-        { label: 'Web', icon: svgGlobe, url: 'https://yossisadoun.github.io/book_review/' }
-      ]
-    },
-    reveal: {
-      name: 'Reveal',
-      icon: 'projects/reveal_1_1x.webp',
-      blurb: 'We got tired of watching vectors just sit there doing nothing. So we built a thing \u2014 pick your layers in Figma, animate them on a timeline, export to video, GIF, or JSON. It\'s a Figma plugin that makes your vectors move. That\'s it. That\'s the whole pitch.',
-      links: [
-        { label: 'Figma Plugin', icon: svgFigma, url: 'https://www.figma.com/community/plugin/1603794604656686212/reveal-vector-path-animation' },
-        { label: 'Demo File', icon: svgFigma, url: 'https://www.figma.com/community/file/1607874854121101597/reveal-figma-plugin' }
-      ]
-    }
+  const svgIcons = {
+    apple: '<svg viewBox="0 0 24 24"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>',
+    globe: '<svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>',
+    figma: '<svg viewBox="0 0 24 24"><path d="M15.852 8.981h-4.588V0h4.588c2.476 0 4.49 2.014 4.49 4.49s-2.014 4.491-4.49 4.491zM12.735 7.51h3.117c1.665 0 3.019-1.355 3.019-3.019s-1.354-3.02-3.019-3.02h-3.117V7.51zm0 13.01h-3.117c-2.476 0-4.49-2.014-4.49-4.49s2.014-4.49 4.49-4.49h3.117v8.98zm-3.117-7.51c-1.665 0-3.019 1.355-3.019 3.02s1.354 3.02 3.019 3.02h1.647V13.01H9.618zm4.588-1.47H8.148c-2.476 0-4.49-2.014-4.49-4.49S5.672 2.56 8.148 2.56h6.058v8.98zm-4.588-7.51c-1.665 0-3.019 1.354-3.019 3.019s1.354 3.02 3.019 3.02h3.117V1.49h-3.117v4.54z"/><circle cx="15.852" cy="15.521" r="3.019"/></svg>'
   };
+
+  let projectData = {};
+  fetch('projects.json').then(r => r.json()).then(data => { projectData = data; });
 
   const wraps = document.querySelectorAll('.project-wrap');
 
@@ -406,7 +382,7 @@
       document.getElementById('pdName').textContent = proj.name;
       document.getElementById('pdBlurb').textContent = proj.blurb;
       document.getElementById('pdLinks').innerHTML = proj.links.map(l =>
-        '<a href="' + l.url + '" target="_blank" rel="noopener">' + l.icon + ' ' + l.label + '</a>'
+        '<a href="' + l.url + '" target="_blank" rel="noopener">' + (svgIcons[l.icon] || '') + ' ' + l.label + '</a>'
       ).join('');
       showOverlay(projectDetail);
     });
