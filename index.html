@@ -46,13 +46,13 @@
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     html {
-      min-height: 100%;
+      height: 100%;
       background-color: #fbc2eb;
-      background-image: linear-gradient(to top, #a18cd1 0%, #fbc2eb 100%);
     }
     body {
-      min-height: 100vh;
-      background-color: #a18cd1;
+      height: 100%;
+      margin: 0;
+      background: #fbc2eb;
       padding-top: env(safe-area-inset-top);
       padding-bottom: env(safe-area-inset-bottom);
       padding-left: env(safe-area-inset-left);
@@ -279,9 +279,38 @@
       padding: 0 2rem;
       transition: opacity 0.6s ease;
     }
+
+    .loader {
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 25%;
+      transition: opacity 0.5s ease;
+    }
+
+    .loader-bar {
+      height: 2px;
+      border-radius: 1px;
+      background: var(--loader-color, rgba(0,0,0,0.2));
+      animation: load 3s linear forwards;
+    }
+
+    @keyframes load {
+      from { width: 0; }
+      to { width: 100%; }
+    }
+
+    .loader.done {
+      opacity: 0;
+      pointer-events: none;
+    }
   </style>
 </head>
 <body ontouchstart>
+  <div class="loader" id="loader"><div class="loader-bar"></div></div>
   <div class="content" id="content">
     <div class="logo-wrap" id="logoWrap">
       <img src="logo.svg" alt="Burning Bush" class="logo">
@@ -399,58 +428,55 @@
     { name: 'Plum + Lavender', bg: '#1a0a20', top: '#1a0a20', bottom: '#1a0a20', logo: 'invert(1) brightness(1.8) sepia(1) saturate(3) hue-rotate(260deg) drop-shadow(0 0 30px rgba(180,100,255,0.4))', text: '#d4b8f0', email: '#6a4a80', about: '#a080c0' },
     { name: 'Ice White', bg: '#f5f8fc', top: '#f5f8fc', bottom: '#f5f8fc', logo: 'brightness(0) opacity(0.8) drop-shadow(0 0 20px rgba(100,150,200,0.2))', text: '#2a3a50', email: '#a0b0c0', about: '#5a6a80' },
     { name: 'Red + Off-white', bg: '#faf6f2', top: '#faf6f2', bottom: '#faf6f2', logo: 'brightness(0) sepia(1) saturate(20) hue-rotate(0deg) drop-shadow(0 0 12px rgba(200,0,0,0.15))', text: '#c0392b', email: '#d0a0a0', about: '#a04030' },
-    { name: 'Gradient — Dusk', bg: 'linear-gradient(160deg, #0f0c29, #302b63, #24243e)', top: '#0f0c29', bottom: '#24243e', logo: 'invert(1) brightness(2) drop-shadow(0 0 25px rgba(140,100,255,0.5))', text: '#e0d0ff', email: '#5a4a80', about: '#a090cc' },
-    { name: 'Gradient — Ember', bg: 'linear-gradient(160deg, #1a0000, #3d0c02, #1a0505)', top: '#1a0000', bottom: '#1a0505', logo: 'invert(1) brightness(1.6) sepia(1) saturate(4) hue-rotate(350deg) drop-shadow(0 0 30px rgba(255,80,20,0.4))', text: '#ff9a76', email: '#6b3a2a', about: '#cc7755' },
-    { name: 'Gradient — Ocean', bg: 'linear-gradient(160deg, #0c1220, #0a2a3a, #0c1a28)', top: '#0c1220', bottom: '#0c1a28', logo: 'invert(1) brightness(2) sepia(1) saturate(2) hue-rotate(160deg) drop-shadow(0 0 25px rgba(0,200,200,0.4))', text: '#70d4d4', email: '#2a5a5a', about: '#50a0a0' },
-    { name: 'Gradient — Aurora', bg: 'linear-gradient(160deg, #0a0a1a, #1a0a2a, #0a1a1a)', top: '#0a0a1a', bottom: '#0a1a1a', logo: 'invert(1) brightness(2) drop-shadow(0 0 20px rgba(100,255,150,0.3)) drop-shadow(0 0 50px rgba(150,50,255,0.3))', text: '#a0f0c0', email: '#3a6a4a', about: '#70c090' },
-    { name: 'Gradient — Sunset', bg: 'linear-gradient(160deg, #1a0a10, #2a1020, #1a1020)', top: '#1a0a10', bottom: '#1a1020', logo: 'invert(1) brightness(1.8) sepia(1) saturate(3) hue-rotate(320deg) drop-shadow(0 0 25px rgba(255,100,150,0.4))', text: '#ffa0c0', email: '#6a3050', about: '#cc7090' },
-    { name: 'Warm Flame', bg: 'linear-gradient(45deg, #ff9a9e 0%, #fad0c4 100%)', top: '#fad0c4', bottom: '#ff9a9e', logo: 'brightness(0) drop-shadow(0 0 12px rgba(150,40,40,0.15))', text: '#5a1a1a', email: '#b08080', about: '#7a3a3a' },
-    { name: 'Night Fade', bg: 'linear-gradient(to top, #a18cd1 0%, #fbc2eb 100%)', top: '#fbc2eb', bottom: '#a18cd1', logo: 'brightness(0) drop-shadow(0 0 12px rgba(80,30,100,0.2))', text: '#3a1a4a', email: '#8060a0', about: '#5a3a6a' },
-    { name: 'Spring Warmth', bg: 'linear-gradient(to top, #fad0c4 0%, #ffd1ff 100%)', top: '#ffd1ff', bottom: '#fad0c4', logo: 'brightness(0) drop-shadow(0 0 12px rgba(120,50,80,0.15))', text: '#5a2a3a', email: '#b08090', about: '#7a4a5a' },
-    { name: 'Juicy Peach', bg: 'linear-gradient(to right, #ffecd2 0%, #fcb69f 100%)', top: '#ffecd2', bottom: '#ffecd2', logo: 'brightness(0) drop-shadow(0 0 12px rgba(150,70,30,0.15))', text: '#5a2a10', email: '#c09070', about: '#7a4a30' },
-    { name: 'Young Passion', bg: 'linear-gradient(to right, #ff8177 0%, #b12a5b 100%)', top: '#ff8177', bottom: '#ff8177', logo: 'brightness(0) drop-shadow(0 0 12px rgba(100,10,40,0.2))', text: '#3a0a15', email: '#904050', about: '#6a2030' },
-    { name: 'Lady Lips', bg: 'linear-gradient(to top, #ff9a9e 0%, #fecfef 100%)', top: '#fecfef', bottom: '#ff9a9e', logo: 'brightness(0) drop-shadow(0 0 12px rgba(130,30,50,0.15))', text: '#5a1a2a', email: '#b07080', about: '#7a3a4a' },
-    { name: 'Sunny Morning', bg: 'linear-gradient(120deg, #f6d365 0%, #fda085 100%)', top: '#f6d365', bottom: '#f6d365', logo: 'brightness(0) drop-shadow(0 0 12px rgba(180,80,30,0.2))', text: '#5a2a10', email: '#c09070', about: '#7a4a30' },
-    { name: 'Rainy Ashville', bg: 'linear-gradient(to top, #fbc2eb 0%, #a6c1ee 100%)', top: '#a6c1ee', bottom: '#fbc2eb', logo: 'brightness(0) drop-shadow(0 0 12px rgba(60,40,100,0.2))', text: '#2a2a4a', email: '#8070a0', about: '#4a4a6a' },
-    { name: 'Frozen Dreams', bg: 'linear-gradient(to top, #fdcbf1 0%, #e6dee9 100%)', top: '#e6dee9', bottom: '#fdcbf1', logo: 'brightness(0) drop-shadow(0 0 12px rgba(100,50,80,0.15))', text: '#4a2a3a', email: '#a08090', about: '#6a4a5a' },
-    { name: 'Winter Neva', bg: 'linear-gradient(120deg, #a1c4fd 0%, #c2e9fb 100%)', top: '#a1c4fd', bottom: '#a1c4fd', logo: 'brightness(0) drop-shadow(0 0 12px rgba(20,50,100,0.2))', text: '#1a2a4a', email: '#6080b0', about: '#3a4a6a' },
-    { name: 'Dusty Grass', bg: 'linear-gradient(120deg, #d4fc79 0%, #96e6a1 100%)', top: '#d4fc79', bottom: '#d4fc79', logo: 'brightness(0) drop-shadow(0 0 12px rgba(30,80,20,0.2))', text: '#1a3a10', email: '#508040', about: '#2a5a20' },
-    { name: 'Tempting Azure', bg: 'linear-gradient(120deg, #84fab0 0%, #8fd3f4 100%)', top: '#84fab0', bottom: '#84fab0', logo: 'brightness(0) drop-shadow(0 0 12px rgba(0,80,80,0.2))', text: '#1a3a3a', email: '#508080', about: '#2a5a5a' },
-    { name: 'Heavy Rain', bg: 'linear-gradient(to top, #cfd9df 0%, #e2ebf0 100%)', top: '#e2ebf0', bottom: '#cfd9df', logo: 'brightness(0) drop-shadow(0 0 10px rgba(0,0,0,0.08))', text: '#2a3040', email: '#8090a0', about: '#4a5060' },
-    { name: 'Amy Crisp', bg: 'linear-gradient(120deg, #a6c0fe 0%, #f68084 100%)', top: '#a6c0fe', bottom: '#a6c0fe', logo: 'brightness(0) drop-shadow(0 0 12px rgba(60,30,60,0.2))', text: '#2a1a3a', email: '#806080', about: '#4a3a5a' },
-    { name: 'Mean Fruit', bg: 'linear-gradient(120deg, #fccb90 0%, #d57eeb 100%)', top: '#fccb90', bottom: '#fccb90', logo: 'brightness(0) drop-shadow(0 0 12px rgba(80,30,90,0.2))', text: '#3a1a4a', email: '#9060a0', about: '#5a3a6a' },
-    { name: 'Deep Blue', bg: 'linear-gradient(120deg, #e0c3fc 0%, #8ec5fc 100%)', top: '#e0c3fc', bottom: '#e0c3fc', logo: 'brightness(0) drop-shadow(0 0 12px rgba(30,40,100,0.2))', text: '#1a2a50', email: '#6070a0', about: '#3a4a70' },
-    { name: 'Ripe Malinka', bg: 'linear-gradient(120deg, #f093fb 0%, #f5576c 100%)', top: '#f093fb', bottom: '#f093fb', logo: 'brightness(0) drop-shadow(0 0 12px rgba(100,10,40,0.2))', text: '#4a0a20', email: '#a04060', about: '#6a2040' },
-    { name: 'Cloudy Knoxville', bg: 'linear-gradient(120deg, #fdfbfb 0%, #ebedee 100%)', top: '#fdfbfb', bottom: '#fdfbfb', logo: 'brightness(0) drop-shadow(0 0 10px rgba(0,0,0,0.06))', text: '#2a2a30', email: '#a0a0a8', about: '#505058' },
-    { name: 'Malibu Beach', bg: 'linear-gradient(to right, #4facfe 0%, #00f2fe 100%)', top: '#4facfe', bottom: '#4facfe', logo: 'brightness(0) drop-shadow(0 0 12px rgba(0,40,100,0.2))', text: '#0a1a3a', email: '#306080', about: '#1a3a5a' },
-    { name: 'New Life', bg: 'linear-gradient(to right, #43e97b 0%, #38f9d7 100%)', top: '#43e97b', bottom: '#43e97b', logo: 'brightness(0) drop-shadow(0 0 12px rgba(0,60,40,0.2))', text: '#0a2a1a', email: '#308060', about: '#1a4a3a' },
-    { name: 'True Sunset', bg: 'linear-gradient(to right, #fa709a 0%, #fee140 100%)', top: '#fa709a', bottom: '#fa709a', logo: 'brightness(0) drop-shadow(0 0 12px rgba(120,30,20,0.2))', text: '#4a1a10', email: '#a06050', about: '#6a3a2a' },
-    { name: 'Morpheus Den', bg: 'linear-gradient(to top, #30cfd0 0%, #330867 100%)', top: '#330867', bottom: '#30cfd0', logo: 'invert(1) brightness(2) drop-shadow(0 0 20px rgba(50,200,210,0.4))', text: '#a0f0f0', email: '#407080', about: '#60b0b0' },
-    { name: 'Rare Wind', bg: 'linear-gradient(to top, #a8edea 0%, #fed6e3 100%)', top: '#fed6e3', bottom: '#a8edea', logo: 'brightness(0) drop-shadow(0 0 12px rgba(100,50,80,0.15))', text: '#3a2a30', email: '#907080', about: '#5a4a50' },
-    { name: 'Near Moon', bg: 'linear-gradient(to top, #5ee7df 0%, #b490ca 100%)', top: '#b490ca', bottom: '#5ee7df', logo: 'brightness(0) drop-shadow(0 0 12px rgba(40,40,80,0.2))', text: '#1a2a3a', email: '#607080', about: '#3a4a5a' },
-    { name: 'Wild Apple', bg: 'linear-gradient(to top, #d299c2 0%, #fef9d7 100%)', top: '#fef9d7', bottom: '#d299c2', logo: 'brightness(0) drop-shadow(0 0 12px rgba(100,40,70,0.15))', text: '#4a1a3a', email: '#a07090', about: '#6a3a5a' },
-    { name: 'Saint Petersburg', bg: 'linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)', top: '#f5f7fa', bottom: '#c3cfe2', logo: 'brightness(0) drop-shadow(0 0 10px rgba(0,0,0,0.08))', text: '#2a3040', email: '#8090a8', about: '#4a5068' },
-    { name: "Arielle's Smile", bg: 'radial-gradient(circle 248px at center, #16d9e3 0%, #30c7ec 47%, #46aef7 100%)', top: '#46aef7', bottom: '#46aef7', logo: 'brightness(0) drop-shadow(0 0 12px rgba(0,40,80,0.2))', text: '#0a1a30', email: '#306090', about: '#1a3a50' },
-    { name: 'Plum Plate', bg: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', top: '#667eea', bottom: '#764ba2', logo: 'invert(1) brightness(2) drop-shadow(0 0 15px rgba(100,70,180,0.4))', text: '#f0e8ff', email: '#9080c0', about: '#c0b0e0' },
-    { name: 'Everlasting Sky', bg: 'linear-gradient(135deg, #fdfcfb 0%, #e2d1c3 100%)', top: '#fdfcfb', bottom: '#e2d1c3', logo: 'brightness(0) drop-shadow(0 0 10px rgba(0,0,0,0.08))', text: '#3a2a20', email: '#a09080', about: '#5a4a3a' },
-    { name: 'Happy Fisher', bg: 'linear-gradient(120deg, #89f7fe 0%, #66a6ff 100%)', top: '#89f7fe', bottom: '#89f7fe', logo: 'brightness(0) drop-shadow(0 0 12px rgba(0,30,100,0.2))', text: '#0a1a3a', email: '#305080', about: '#1a3050' },
+    { name: 'Dusk', bg: '#0f0c29', top: '#0f0c29', bottom: '#0f0c29', logo: 'invert(1) brightness(2) drop-shadow(0 0 25px rgba(140,100,255,0.5))', text: '#e0d0ff', email: '#5a4a80', about: '#a090cc' },
+    { name: 'Ember', bg: '#1a0000', top: '#1a0000', bottom: '#1a0000', logo: 'invert(1) brightness(1.6) sepia(1) saturate(4) hue-rotate(350deg) drop-shadow(0 0 30px rgba(255,80,20,0.4))', text: '#ff9a76', email: '#6b3a2a', about: '#cc7755' },
+    { name: 'Ocean', bg: '#0c1220', top: '#0c1220', bottom: '#0c1220', logo: 'invert(1) brightness(2) sepia(1) saturate(2) hue-rotate(160deg) drop-shadow(0 0 25px rgba(0,200,200,0.4))', text: '#70d4d4', email: '#2a5a5a', about: '#50a0a0' },
+    { name: 'Aurora', bg: '#0a0a1a', top: '#0a0a1a', bottom: '#0a0a1a', logo: 'invert(1) brightness(2) drop-shadow(0 0 20px rgba(100,255,150,0.3)) drop-shadow(0 0 50px rgba(150,50,255,0.3))', text: '#a0f0c0', email: '#3a6a4a', about: '#70c090' },
+    { name: 'Sunset', bg: '#1a0a10', top: '#1a0a10', bottom: '#1a0a10', logo: 'invert(1) brightness(1.8) sepia(1) saturate(3) hue-rotate(320deg) drop-shadow(0 0 25px rgba(255,100,150,0.4))', text: '#ffa0c0', email: '#6a3050', about: '#cc7090' },
+    { name: 'Warm Flame', bg: '#ff9a9e', top: '#ff9a9e', bottom: '#ff9a9e', logo: 'brightness(0) drop-shadow(0 0 12px rgba(150,40,40,0.15))', text: '#5a1a1a', email: '#b08080', about: '#7a3a3a' },
+    { name: 'Night Fade', bg: '#fbc2eb', top: '#fbc2eb', bottom: '#fbc2eb', logo: 'brightness(0) drop-shadow(0 0 12px rgba(80,30,100,0.2))', text: '#3a1a4a', email: '#8060a0', about: '#5a3a6a' },
+    { name: 'Spring Warmth', bg: '#ffd1ff', top: '#ffd1ff', bottom: '#ffd1ff', logo: 'brightness(0) drop-shadow(0 0 12px rgba(120,50,80,0.15))', text: '#5a2a3a', email: '#b08090', about: '#7a4a5a' },
+    { name: 'Juicy Peach', bg: '#ffecd2', top: '#ffecd2', bottom: '#ffecd2', logo: 'brightness(0) drop-shadow(0 0 12px rgba(150,70,30,0.15))', text: '#5a2a10', email: '#c09070', about: '#7a4a30' },
+    { name: 'Young Passion', bg: '#ff8177', top: '#ff8177', bottom: '#ff8177', logo: 'brightness(0) drop-shadow(0 0 12px rgba(100,10,40,0.2))', text: '#3a0a15', email: '#904050', about: '#6a2030' },
+    { name: 'Lady Lips', bg: '#fecfef', top: '#fecfef', bottom: '#fecfef', logo: 'brightness(0) drop-shadow(0 0 12px rgba(130,30,50,0.15))', text: '#5a1a2a', email: '#b07080', about: '#7a3a4a' },
+    { name: 'Sunny Morning', bg: '#f6d365', top: '#f6d365', bottom: '#f6d365', logo: 'brightness(0) drop-shadow(0 0 12px rgba(180,80,30,0.2))', text: '#5a2a10', email: '#c09070', about: '#7a4a30' },
+    { name: 'Rainy Ashville', bg: '#a6c1ee', top: '#a6c1ee', bottom: '#a6c1ee', logo: 'brightness(0) drop-shadow(0 0 12px rgba(60,40,100,0.2))', text: '#2a2a4a', email: '#8070a0', about: '#4a4a6a' },
+    { name: 'Frozen Dreams', bg: '#e6dee9', top: '#e6dee9', bottom: '#e6dee9', logo: 'brightness(0) drop-shadow(0 0 12px rgba(100,50,80,0.15))', text: '#4a2a3a', email: '#a08090', about: '#6a4a5a' },
+    { name: 'Winter Neva', bg: '#a1c4fd', top: '#a1c4fd', bottom: '#a1c4fd', logo: 'brightness(0) drop-shadow(0 0 12px rgba(20,50,100,0.2))', text: '#1a2a4a', email: '#6080b0', about: '#3a4a6a' },
+    { name: 'Dusty Grass', bg: '#d4fc79', top: '#d4fc79', bottom: '#d4fc79', logo: 'brightness(0) drop-shadow(0 0 12px rgba(30,80,20,0.2))', text: '#1a3a10', email: '#508040', about: '#2a5a20' },
+    { name: 'Tempting Azure', bg: '#84fab0', top: '#84fab0', bottom: '#84fab0', logo: 'brightness(0) drop-shadow(0 0 12px rgba(0,80,80,0.2))', text: '#1a3a3a', email: '#508080', about: '#2a5a5a' },
+    { name: 'Heavy Rain', bg: '#e2ebf0', top: '#e2ebf0', bottom: '#e2ebf0', logo: 'brightness(0) drop-shadow(0 0 10px rgba(0,0,0,0.08))', text: '#2a3040', email: '#8090a0', about: '#4a5060' },
+    { name: 'Amy Crisp', bg: '#a6c0fe', top: '#a6c0fe', bottom: '#a6c0fe', logo: 'brightness(0) drop-shadow(0 0 12px rgba(60,30,60,0.2))', text: '#2a1a3a', email: '#806080', about: '#4a3a5a' },
+    { name: 'Mean Fruit', bg: '#fccb90', top: '#fccb90', bottom: '#fccb90', logo: 'brightness(0) drop-shadow(0 0 12px rgba(80,30,90,0.2))', text: '#3a1a4a', email: '#9060a0', about: '#5a3a6a' },
+    { name: 'Deep Blue', bg: '#e0c3fc', top: '#e0c3fc', bottom: '#e0c3fc', logo: 'brightness(0) drop-shadow(0 0 12px rgba(30,40,100,0.2))', text: '#1a2a50', email: '#6070a0', about: '#3a4a70' },
+    { name: 'Ripe Malinka', bg: '#f093fb', top: '#f093fb', bottom: '#f093fb', logo: 'brightness(0) drop-shadow(0 0 12px rgba(100,10,40,0.2))', text: '#4a0a20', email: '#a04060', about: '#6a2040' },
+    { name: 'Cloudy Knoxville', bg: '#fdfbfb', top: '#fdfbfb', bottom: '#fdfbfb', logo: 'brightness(0) drop-shadow(0 0 10px rgba(0,0,0,0.06))', text: '#2a2a30', email: '#a0a0a8', about: '#505058' },
+    { name: 'Malibu Beach', bg: '#4facfe', top: '#4facfe', bottom: '#4facfe', logo: 'brightness(0) drop-shadow(0 0 12px rgba(0,40,100,0.2))', text: '#0a1a3a', email: '#306080', about: '#1a3a5a' },
+    { name: 'New Life', bg: '#43e97b', top: '#43e97b', bottom: '#43e97b', logo: 'brightness(0) drop-shadow(0 0 12px rgba(0,60,40,0.2))', text: '#0a2a1a', email: '#308060', about: '#1a4a3a' },
+    { name: 'True Sunset', bg: '#fa709a', top: '#fa709a', bottom: '#fa709a', logo: 'brightness(0) drop-shadow(0 0 12px rgba(120,30,20,0.2))', text: '#4a1a10', email: '#a06050', about: '#6a3a2a' },
+    { name: 'Morpheus Den', bg: '#330867', top: '#330867', bottom: '#330867', logo: 'invert(1) brightness(2) drop-shadow(0 0 20px rgba(50,200,210,0.4))', text: '#a0f0f0', email: '#407080', about: '#60b0b0' },
+    { name: 'Rare Wind', bg: '#fed6e3', top: '#fed6e3', bottom: '#fed6e3', logo: 'brightness(0) drop-shadow(0 0 12px rgba(100,50,80,0.15))', text: '#3a2a30', email: '#907080', about: '#5a4a50' },
+    { name: 'Near Moon', bg: '#b490ca', top: '#b490ca', bottom: '#b490ca', logo: 'brightness(0) drop-shadow(0 0 12px rgba(40,40,80,0.2))', text: '#1a2a3a', email: '#607080', about: '#3a4a5a' },
+    { name: 'Wild Apple', bg: '#fef9d7', top: '#fef9d7', bottom: '#fef9d7', logo: 'brightness(0) drop-shadow(0 0 12px rgba(100,40,70,0.15))', text: '#4a1a3a', email: '#a07090', about: '#6a3a5a' },
+    { name: 'Saint Petersburg', bg: '#f5f7fa', top: '#f5f7fa', bottom: '#f5f7fa', logo: 'brightness(0) drop-shadow(0 0 10px rgba(0,0,0,0.08))', text: '#2a3040', email: '#8090a8', about: '#4a5068' },
+    { name: "Arielle's Smile", bg: '#16d9e3', top: '#16d9e3', bottom: '#16d9e3', logo: 'brightness(0) drop-shadow(0 0 12px rgba(0,40,80,0.2))', text: '#0a1a30', email: '#306090', about: '#1a3a50' },
+    { name: 'Plum Plate', bg: '#667eea', top: '#667eea', bottom: '#667eea', logo: 'invert(1) brightness(2) drop-shadow(0 0 15px rgba(100,70,180,0.4))', text: '#f0e8ff', email: '#9080c0', about: '#c0b0e0' },
+    { name: 'Everlasting Sky', bg: '#fdfcfb', top: '#fdfcfb', bottom: '#fdfcfb', logo: 'brightness(0) drop-shadow(0 0 10px rgba(0,0,0,0.08))', text: '#3a2a20', email: '#a09080', about: '#5a4a3a' },
+    { name: 'Happy Fisher', bg: '#89f7fe', top: '#89f7fe', bottom: '#89f7fe', logo: 'brightness(0) drop-shadow(0 0 12px rgba(0,30,100,0.2))', text: '#0a1a3a', email: '#305080', about: '#1a3050' },
   ];
 
   (function initTheme() {
     const t = themes[Math.floor(Math.random() * themes.length)];
     const root = document.documentElement;
 
-    // Background: gradient on html, solid fallbacks for safe areas
-    root.style.backgroundImage = t.bg.startsWith('#') ? 'none' : t.bg;
-    root.style.backgroundColor = t.top;
-    document.body.style.backgroundColor = t.bottom;
-    if (t.bg.startsWith('#')) root.style.backgroundColor = t.bg;
-
-    // Theme color for iOS status bar
-    document.querySelectorAll('meta[name="theme-color"]').forEach(m => m.setAttribute('content', t.top));
-
-    // Icon gradient overlay
+    root.style.backgroundColor = t.bg;
+    document.body.style.background = t.bg;
     root.style.setProperty('--icon-gradient', t.bg);
+
+    // Loader + theme-color
+    document.getElementById('loader').style.background = t.bg;
+    root.style.setProperty('--loader-color', t.text);
+    document.querySelectorAll('meta[name="theme-color"]').forEach(m => m.setAttribute('content', t.bg));
 
     // Logo, text, email colors
     document.querySelector('.logo').style.filter = t.logo;
@@ -462,6 +488,9 @@
     document.getElementById('pdLinks').style.color = t.about;
     document.querySelector('.close-btn').style.color = t.text;
   })();
+
+  // Dismiss loader after 3s
+  setTimeout(() => document.getElementById('loader').classList.add('done'), 3000);
 </script>
 </body>
 </html>
