@@ -236,23 +236,21 @@
       right: clamp(8px, 2.5vw, 14px);
       width: clamp(34px, 8vw, 40px);
       height: clamp(34px, 8vw, 40px);
-      border: 1px solid rgba(255, 255, 255, 0.18);
-      border-radius: 999px;
-      background: rgba(10, 10, 10, 0.28);
-      color: #ddd;
+      border: none;
+      border-radius: 0;
+      background: transparent;
+      color: inherit;
       display: grid;
       place-items: center;
       cursor: pointer;
-      backdrop-filter: blur(6px);
-      -webkit-backdrop-filter: blur(6px);
       z-index: 3;
-      transition: transform 0.2s ease, background 0.2s ease, color 0.2s ease;
+      transition: transform 0.2s ease, opacity 0.2s ease;
+      opacity: 0.9;
     }
 
     .overlay-close:hover {
       transform: scale(1.05);
-      background: rgba(10, 10, 10, 0.45);
-      color: #fff;
+      opacity: 1;
     }
 
     .overlay-close svg {
