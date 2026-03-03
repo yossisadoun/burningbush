@@ -142,19 +142,35 @@
       filter: none;
     }
 
+    .project-link::before,
     .project-link::after {
       content: '';
       position: absolute;
       inset: 0;
-      background: var(--icon-gradient, #888);
       mix-blend-mode: color;
-      opacity: var(--icon-overlay-opacity, 1);
-      transition: opacity 0.3s ease;
       pointer-events: none;
     }
 
+    .project-link::before {
+      background: var(--icon-gradient-old, #888);
+      z-index: 1;
+    }
+
+    .project-link::after {
+      background: var(--icon-gradient-new, #888);
+      opacity: 0;
+      transition: opacity 2.5s ease;
+      z-index: 2;
+    }
+
+    .icon-crossfading .project-link::after {
+      opacity: 1;
+    }
+
+    .project-link:hover::before,
     .project-link:hover::after {
       opacity: 0 !important;
+      transition: opacity 0.3s ease !important;
     }
 
     .content.expanded .projects {
@@ -270,7 +286,7 @@
 </head>
 <body>
   <div class="bg-layer bg-back" id="bgBack"></div>
-  <div class="bg-layer bg-front" id="bgFront" style="background: #050505;"></div>
+  <div class="bg-layer bg-front" id="bgFront"></div>
   <main class="content">
     <div class="logo-wrap" id="logoWrap">
       <img src="logo.svg" alt="" class="logo logo-back" id="logoBack">
@@ -403,7 +419,7 @@
       { name: 'Happy Fisher', bg: 'linear-gradient(120deg, #89f7fe 0%, #66a6ff 100%)', logo: 'brightness(0) drop-shadow(0 0 12px rgba(0,30,100,0.2))', text: '#0a1a3a', email: '#305080', about: '#1a3050' },
     ];
 
-    let currentTheme = 0;
+    let currentTheme = Math.floor(Math.random() * themes.length);
     let transitioning = false;
     const logoFront = document.getElementById('logoFront');
     const logoBack = document.getElementById('logoBack');
@@ -413,18 +429,44 @@
     const bgFront = document.getElementById('bgFront');
     const bgBack = document.getElementById('bgBack');
 
+    (function initTheme() {
+      const t = themes[currentTheme];
+      const root = document.documentElement;
+      bgFront.style.transition = 'none';
+      bgFront.style.background = t.bg;
+      logoFront.style.transition = 'none';
+      logoFront.style.filter = t.logo;
+      missionEl.style.transition = 'none';
+      missionEl.style.color = t.text;
+      aboutEl2.style.transition = 'none';
+      aboutEl2.style.color = t.about;
+      emailEl.style.transition = 'none';
+      emailEl.style.color = t.email;
+      detailName.style.transition = 'none';
+      detailName.style.color = t.text;
+      detailBlurb.style.transition = 'none';
+      detailBlurb.style.color = t.about;
+      root.style.setProperty('--icon-gradient-old', t.bg);
+      void bgFront.offsetHeight;
+      bgFront.style.transition = 'opacity 2.5s ease';
+      logoFront.style.transition = 'opacity 2.5s ease';
+      missionEl.style.transition = 'color 2.5s ease, opacity 0.6s ease';
+      aboutEl2.style.transition = 'color 2.5s ease, opacity 0.6s ease';
+      emailEl.style.transition = 'color 2.5s ease, text-shadow 0.5s ease';
+      detailName.style.transition = 'color 2.5s ease';
+      detailBlurb.style.transition = 'color 2.5s ease';
+    })();
+
     function applyTheme(i) {
       if (transitioning) return;
       const t = themes[i];
       transitioning = true;
 
       const root = document.documentElement;
-      root.style.setProperty('--icon-overlay-opacity', '0');
-
-      setTimeout(() => {
-        root.style.setProperty('--icon-gradient', t.bg);
-        root.style.setProperty('--icon-overlay-opacity', '1');
-      }, 1250);
+      const proj = document.querySelector('.projects');
+      root.style.setProperty('--icon-gradient-new', t.bg);
+      void proj.offsetHeight;
+      proj.classList.add('icon-crossfading');
 
       bgBack.style.background = t.bg;
 
@@ -453,6 +495,10 @@
         logoFront.style.opacity = '1';
         logoBack.style.transition = 'none';
         logoBack.style.opacity = '0';
+
+        root.style.setProperty('--icon-gradient-old', t.bg);
+        proj.classList.remove('icon-crossfading');
+
         void bgFront.offsetHeight;
         bgFront.style.transition = 'opacity 2.5s ease';
         logoFront.style.transition = 'opacity 2.5s ease';
