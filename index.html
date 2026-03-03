@@ -3,12 +3,41 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Burning Bush</title>
-  <meta name="description" content="Burning Bush — Build what the wind brings us...">
-  <meta property="og:title" content="Burning Bush">
-  <meta property="og:description" content="Build what the wind brings us...">
+  <title>Burning Bush — We build the things we feel like building</title>
+  <meta name="description" content="Burning Bush is a creative studio that builds apps, tools, and things we're proud to tell people about. Lava Jump, BookLuv, Reveal, and whatever the wind carries next.">
+  <meta name="keywords" content="Burning Bush, creative studio, Lava Jump, BookLuv, Reveal, Figma plugin, indie apps, mobile apps, web apps">
+  <meta name="author" content="Burning Bush">
+  <link rel="canonical" href="https://burning-bush.com/">
+
+  <meta property="og:title" content="Burning Bush — We build the things we feel like building">
+  <meta property="og:description" content="A creative studio that builds apps, tools, and things we're proud to tell people about.">
   <meta property="og:type" content="website">
+  <meta property="og:url" content="https://burning-bush.com/">
+  <meta property="og:image" content="https://burning-bush.com/logo.svg">
+  <meta property="og:site_name" content="Burning Bush">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Burning Bush — We build the things we feel like building">
+  <meta name="twitter:description" content="A creative studio that builds apps, tools, and things we're proud to tell people about.">
+  <meta name="twitter:image" content="https://burning-bush.com/logo.svg">
+
+  <meta name="theme-color" content="#050505">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔥</text></svg>">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Burning Bush",
+    "url": "https://burning-bush.com",
+    "logo": "https://burning-bush.com/logo.svg",
+    "description": "A creative studio that builds apps, tools, and things we're proud to tell people about.",
+    "email": "yossi@burning-bush.com",
+    "sameAs": ["https://github.com/yossisadoun"]
+  }
+  </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Sono:wght@300;400&display=swap" rel="stylesheet">
@@ -17,6 +46,18 @@
       margin: 0;
       padding: 0;
       box-sizing: border-box;
+    }
+
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0,0,0,0);
+      white-space: nowrap;
+      border: 0;
     }
 
     html, body {
@@ -221,6 +262,39 @@
       transition: color 2.5s ease;
     }
 
+    .project-detail-links {
+      display: flex;
+      gap: 1.2rem;
+      align-items: center;
+      justify-content: center;
+      margin-top: 0.5rem;
+      color: #aaa;
+      transition: color 2.5s ease;
+    }
+
+    .project-detail-links a {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      color: inherit;
+      text-decoration: none;
+      font-size: 0.8rem;
+      font-weight: 300;
+      letter-spacing: 0.03em;
+      transition: opacity 0.3s ease;
+      opacity: 0.7;
+    }
+
+    .project-detail-links a:hover {
+      opacity: 1;
+    }
+
+    .project-detail-links svg {
+      width: 18px;
+      height: 18px;
+      fill: currentColor;
+    }
+
     .content.project-open .logo-wrap,
     .content.project-open .mission,
     .content.project-open .projects {
@@ -288,6 +362,7 @@
   <div class="bg-layer bg-back" id="bgBack"></div>
   <div class="bg-layer bg-front" id="bgFront"></div>
   <main class="content">
+    <h1 class="sr-only">Burning Bush — Creative Studio</h1>
     <div class="logo-wrap" id="logoWrap">
       <img src="logo.svg" alt="" class="logo logo-back" id="logoBack">
       <img src="logo.svg" alt="Burning Bush" class="logo logo-front" id="logoFront">
@@ -302,6 +377,7 @@
       <img class="project-detail-icon" id="projectDetailIcon" src="" alt="">
       <p class="project-detail-name" id="projectDetailName"></p>
       <p class="project-detail-blurb" id="projectDetailBlurb"></p>
+      <div class="project-detail-links" id="projectDetailLinks"></div>
     </div>
     <p class="about" id="about">We build the things we feel like building, with or without AI we guess. We enjoy the process and the outcomes and choose the things we'll be proud telling other people about, big or small (the things, not the people. The people's size don't matter to us at this point). And who is "we"!? for heaven's sake.</p>
   </main>
@@ -323,21 +399,35 @@
       about.classList.remove('visible');
     });
 
+    const svgApple = '<svg viewBox="0 0 24 24"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>';
+    const svgGlobe = '<svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>';
+
     const projectData = {
       lavajump: {
         name: 'Lava Jump',
         icon: 'projects/lavajump.png',
-        blurb: 'A volcanic endless runner where timing is everything. Jump between erupting platforms, dodge molten lava, and see how far you can go before the heat catches up.'
+        blurb: 'We wanted our kids to actually learn something while staring at a screen, so we built a game where they jump over lava and accidentally learn letters and numbers. It works. They think they\'re playing. We know better.',
+        links: [
+          { label: 'App Store', icon: svgApple, url: 'https://apps.apple.com/us/app/lava-jump-learn-play-3-8-yo/id6756043343' },
+          { label: 'Web', icon: svgGlobe, url: 'https://yossisadoun.github.io/lava-jump/' }
+        ]
       },
       bookluv: {
         name: 'BookLuv',
         icon: 'projects/bookluv.png',
-        blurb: 'Your personal book companion. Track what you read, discover what to read next, and share your taste with friends who actually care about books.'
+        blurb: 'We kept finishing books and realizing we missed half the point. So we built a thing that gives you the full picture — characters, timelines, context, maps, the "did you know" stuff your English teacher never mentioned. Add a book, get the world around it. No more Wikipedia rabbit holes at 2am (okay, fewer).',
+        links: [
+          { label: 'Web', icon: svgGlobe, url: 'https://yossisadoun.github.io/book_review/' }
+        ]
       },
       reveal: {
         name: 'Reveal',
         icon: 'projects/reveal.png',
-        blurb: 'See what\'s hidden in plain sight. A creative tool that peels back layers of content to reveal the story underneath — part art, part utility, fully addictive.'
+        blurb: 'We got tired of watching vectors just sit there doing nothing. So we built a thing — pick your layers in Figma, animate them on a timeline, export to video, GIF, or JSON. It\'s a Figma plugin that makes your vectors move. That\'s it. That\'s the whole pitch.',
+        links: [
+          { label: 'Figma Plugin', icon: '<svg viewBox="0 0 24 24"><path d="M15.852 8.981h-4.588V0h4.588c2.476 0 4.49 2.014 4.49 4.49s-2.014 4.491-4.49 4.491zM12.735 7.51h3.117c1.665 0 3.019-1.355 3.019-3.019s-1.354-3.02-3.019-3.02h-3.117V7.51zm0 13.01h-3.117c-2.476 0-4.49-2.014-4.49-4.49s2.014-4.49 4.49-4.49h3.117v8.98zm-3.117-7.51c-1.665 0-3.019 1.355-3.019 3.02s1.354 3.02 3.019 3.02h1.647V13.01H9.618zm4.588-1.47H8.148c-2.476 0-4.49-2.014-4.49-4.49S5.672 2.56 8.148 2.56h6.058v8.98zm-4.588-7.51c-1.665 0-3.019 1.354-3.019 3.019s1.354 3.02 3.019 3.02h3.117V1.49h-3.117v4.54z"/><circle cx="15.852" cy="15.521" r="3.019"/></svg>', url: 'https://www.figma.com/community/plugin/1603794604656686212/reveal-vector-path-animation' },
+          { label: 'Demo File', icon: '<svg viewBox="0 0 24 24"><path d="M15.852 8.981h-4.588V0h4.588c2.476 0 4.49 2.014 4.49 4.49s-2.014 4.491-4.49 4.491zM12.735 7.51h3.117c1.665 0 3.019-1.355 3.019-3.019s-1.354-3.02-3.019-3.02h-3.117V7.51zm0 13.01h-3.117c-2.476 0-4.49-2.014-4.49-4.49s2.014-4.49 4.49-4.49h3.117v8.98zm-3.117-7.51c-1.665 0-3.019 1.355-3.019 3.02s1.354 3.02 3.019 3.02h1.647V13.01H9.618zm4.588-1.47H8.148c-2.476 0-4.49-2.014-4.49-4.49S5.672 2.56 8.148 2.56h6.058v8.98zm-4.588-7.51c-1.665 0-3.019 1.354-3.019 3.019s1.354 3.02 3.019 3.02h3.117V1.49h-3.117v4.54z"/><circle cx="15.852" cy="15.521" r="3.019"/></svg>', url: 'https://www.figma.com/community/file/1607874854121101597/reveal-figma-plugin' }
+        ]
       }
     };
 
@@ -345,6 +435,7 @@
     const detailIcon = document.getElementById('projectDetailIcon');
     const detailName = document.getElementById('projectDetailName');
     const detailBlurb = document.getElementById('projectDetailBlurb');
+    const detailLinks = document.getElementById('projectDetailLinks');
 
     document.querySelectorAll('.project-link').forEach(link => {
       link.addEventListener('click', (e) => {
@@ -356,12 +447,16 @@
         detailIcon.alt = proj.name;
         detailName.textContent = proj.name;
         detailBlurb.textContent = proj.blurb;
+        detailLinks.innerHTML = (proj.links || []).map(l =>
+          '<a href="' + l.url + '" target="_blank" rel="noopener">' + l.icon + ' ' + l.label + '</a>'
+        ).join('');
         content.classList.add('project-open');
         detailEl.classList.add('visible');
       });
     });
 
-    detailEl.addEventListener('click', () => {
+    detailEl.addEventListener('click', (e) => {
+      if (e.target.closest('.project-detail-links a')) return;
       content.classList.remove('project-open');
       detailEl.classList.remove('visible');
     });
@@ -446,6 +541,8 @@
       detailName.style.color = t.text;
       detailBlurb.style.transition = 'none';
       detailBlurb.style.color = t.about;
+      detailLinks.style.transition = 'none';
+      detailLinks.style.color = t.about;
       root.style.setProperty('--icon-gradient-old', t.bg);
       void bgFront.offsetHeight;
       bgFront.style.transition = 'opacity 2.5s ease';
@@ -455,6 +552,7 @@
       emailEl.style.transition = 'color 2.5s ease, text-shadow 0.5s ease';
       detailName.style.transition = 'color 2.5s ease';
       detailBlurb.style.transition = 'color 2.5s ease';
+      detailLinks.style.transition = 'color 2.5s ease';
     })();
 
     function applyTheme(i) {
@@ -485,6 +583,7 @@
       emailEl.style.color = t.email;
       detailName.style.color = t.text;
       detailBlurb.style.color = t.about;
+      detailLinks.style.color = t.about;
 
       setTimeout(() => {
         bgFront.style.transition = 'none';
