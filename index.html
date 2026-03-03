@@ -384,8 +384,13 @@
     closeBtn.style.opacity = '0';
     closeBtn.style.pointerEvents = 'none';
     activeOverlay = null;
+    // Clear glow filters before fade-in to avoid bounding-box clipping
+    const wraps = document.querySelectorAll('.project-wrap');
+    wraps.forEach(w => { w._savedFilter = w.style.filter; w.style.filter = 'none'; });
     setTimeout(() => {
       content.classList.remove('faded');
+      // Re-apply glow filters after fade-in completes
+      setTimeout(() => wraps.forEach(w => w.style.filter = w._savedFilter), 650);
     }, 600);
   }
 
@@ -474,10 +479,12 @@
     // Logo, text, email colors
     document.querySelector('.logo').style.filter = t.logo;
 
-    // Extract drop-shadows from logo filter and apply on icons
+    // Extract drop-shadows from logo filter and apply on icons (50% softer)
     const glowFilter = (t.logo.match(/drop-shadow\([^)]+\)/g) || []).join(' ');
-    document.querySelectorAll('.project-wrap').forEach(w => w.style.filter = glowFilter);
-    document.querySelector('.project-detail-icon').style.filter = glowFilter;
+    const softGlow = glowFilter.replace(/rgba\(([^)]+),\s*([\d.]+)\)/g, (m, rgb, a) =>
+      'rgba(' + rgb + ', ' + (parseFloat(a) * 0.5) + ')');
+    document.querySelectorAll('.project-wrap').forEach(w => w.style.filter = softGlow);
+    document.querySelector('.project-detail-icon').style.filter = softGlow;
 
     document.querySelector('.mission').style.color = t.text;
     document.querySelector('.email').style.color = t.text;
