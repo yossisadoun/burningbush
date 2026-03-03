@@ -368,7 +368,11 @@
     }
   };
 
+  const wraps = document.querySelectorAll('.project-wrap');
+
   function showOverlay(overlay) {
+    // Clear glow filters so they don't leak through opacity:0
+    wraps.forEach(w => { w._savedFilter = w.style.filter; w.style.filter = 'none'; });
     content.classList.add('faded');
     activeOverlay = overlay;
     setTimeout(() => {
@@ -384,9 +388,6 @@
     closeBtn.style.opacity = '0';
     closeBtn.style.pointerEvents = 'none';
     activeOverlay = null;
-    // Clear glow filters before fade-in to avoid bounding-box clipping
-    const wraps = document.querySelectorAll('.project-wrap');
-    wraps.forEach(w => { w._savedFilter = w.style.filter; w.style.filter = 'none'; });
     setTimeout(() => {
       content.classList.remove('faded');
       // Re-apply glow filters after fade-in completes
