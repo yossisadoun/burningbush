@@ -137,7 +137,6 @@
       height: clamp(100px, 25vw, 140px);
       border-radius: 28px;
       object-fit: cover;
-      box-shadow: 0 8px 40px rgba(0,0,0,0.3);
     }
 
     .project-detail-name {
@@ -474,6 +473,12 @@
 
     // Logo, text, email colors
     document.querySelector('.logo').style.filter = t.logo;
+
+    // Extract drop-shadows from logo filter and apply on icons
+    const glowFilter = (t.logo.match(/drop-shadow\([^)]+\)/g) || []).join(' ');
+    document.querySelectorAll('.project-wrap').forEach(w => w.style.filter = glowFilter);
+    document.querySelector('.project-detail-icon').style.filter = glowFilter;
+
     document.querySelector('.mission').style.color = t.text;
     document.querySelector('.email').style.color = t.text;
     document.querySelector('.about-text').style.color = t.about;
