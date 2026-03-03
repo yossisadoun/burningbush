@@ -63,7 +63,7 @@
       position: relative;
       width: min(420px, 65vw);
       cursor: pointer;
-      padding: 2rem;
+      margin: 2rem;
     }
 
     .logo {
@@ -80,9 +80,11 @@
 
     .logo-back {
       position: absolute;
-      inset: 0;
+      top: 0;
+      left: 0;
       width: 100%;
-      height: auto;
+      height: 100%;
+      object-fit: contain;
       display: block;
       opacity: 0;
       transition: opacity 2.5s ease;
@@ -167,7 +169,7 @@
       <img src="logo.svg" alt="" class="logo logo-back" id="logoBack">
       <img src="logo.svg" alt="Burning Bush" class="logo logo-front" id="logoFront">
     </div>
-    <p class="mission">behold, the bush was burning,<br>yet it was not consumed.</p>
+    <p class="mission">behold, the bush was burning, yet it was not consumed.</p>
     <p class="about" id="about">We build the things we feel like building, with or without AI we guess. We enjoy the process and the outcomes and choose the things we'll be proud telling other people about, big or small (the things, not the people. The people's size don't matter to us at this point). And who is "we"!? for heaven's sake.</p>
   </main>
   <script>
