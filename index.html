@@ -40,10 +40,14 @@
     "sameAs": ["https://github.com/yossisadoun"]
   }
   </script>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Sono:wght@300;400&display=swap" rel="stylesheet">
   <style>
+    @font-face {
+      font-family: 'Sono';
+      font-style: normal;
+      font-weight: 300 400;
+      font-display: swap;
+      src: url(fonts/sono-latin.woff2) format('woff2');
+    }
     * { margin: 0; padding: 0; box-sizing: border-box; }
     html {
       height: 100%;
@@ -200,7 +204,9 @@
     .logo-wrap {
       width: min(420px, 65vw);
       cursor: pointer;
-      margin: 2rem;
+      padding: 3rem;
+      margin: -1rem;
+      overflow: visible;
       transition: opacity 0.6s ease;
     }
 
