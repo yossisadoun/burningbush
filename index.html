@@ -21,11 +21,11 @@
   <meta name="twitter:description" content="A creative studio that builds apps, tools, and things we're proud to tell people about.">
   <meta name="twitter:image" content="https://burning-bush.com/logo.svg">
 
-  <meta name="theme-color" content="#050505" id="themeColorMeta">
+  <meta name="theme-color" content="#fbc2eb" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#fbc2eb" media="(prefers-color-scheme: dark)">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔥</text></svg>">
+  <link rel="icon" href="favicon.png" type="image/png">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -42,233 +42,83 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Sono:wght@300;400&display=swap" rel="stylesheet">
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html {
+      min-height: 100%;
+      background-color: #fbc2eb;
+      background-image: linear-gradient(to top, #a18cd1 0%, #fbc2eb 100%);
     }
-
-    .sr-only {
-      position: absolute;
-      width: 1px;
-      height: 1px;
-      padding: 0;
-      margin: -1px;
-      overflow: hidden;
-      clip: rect(0,0,0,0);
-      white-space: nowrap;
-      border: 0;
-    }
-
-    html, body {
-      width: 100%;
-      height: 100%;
-      background: #050505;
-      overflow-x: hidden;
-    }
-
     body {
-      background: #050505;
+      min-height: 100vh;
+      background-color: #a18cd1;
+      padding-top: env(safe-area-inset-top);
+      padding-bottom: env(safe-area-inset-bottom);
+      padding-left: env(safe-area-inset-left);
+      padding-right: env(safe-area-inset-right);
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      min-height: 100dvh;
       font-family: 'Sono', sans-serif;
-      overflow-x: hidden;
-      position: relative;
-      overscroll-behavior-y: none;
-    }
-
-    .bg-layer {
-      position: fixed;
-      top: calc(-1 * env(safe-area-inset-top, 0px));
-      right: 0;
-      bottom: calc(-1 * env(safe-area-inset-bottom, 0px));
-      left: 0;
-      z-index: 0;
-      transition: opacity 2.5s ease;
-      will-change: opacity, transform;
-    }
-    .bg-back { opacity: 1; }
-    .bg-front { opacity: 1; }
-
-    .content, .email-wrapper {
-      position: relative;
-      z-index: 1;
     }
 
     .content {
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 3rem;
-      padding: 2rem;
-      flex: 1;
       justify-content: center;
+      flex: 1;
     }
 
-    .logo-wrap {
-      position: relative;
-      width: min(420px, 65vw);
-      cursor: pointer;
-      margin: 2rem;
+    .content > * {
       transition: opacity 0.6s ease;
     }
 
-    .logo {
-      width: 100%;
-      height: auto;
-      display: block;
-      filter:
-        invert(1)
-        brightness(2)
-        drop-shadow(0 0 20px rgba(131, 56, 236, 0.4))
-        drop-shadow(0 0 60px rgba(255, 0, 110, 0.2))
-        drop-shadow(0 0 100px rgba(58, 134, 255, 0.15));
-    }
-
-    .logo-back {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-      display: block;
+    .content.faded > * {
       opacity: 0;
-      transition: opacity 2.5s ease;
+      pointer-events: none;
     }
 
-    .logo-front {
-      position: relative;
-      transition: opacity 2.5s ease;
-    }
-
-    .mission {
-      font-size: clamp(1.25rem, 3vw, 1.75rem);
-      font-weight: 300;
-      letter-spacing: 0.04em;
-      color: #ffffff;
-      text-align: center;
-      transition: color 2.5s ease, opacity 0.6s ease;
-    }
-
-    .projects {
+    .about {
+      position: fixed;
+      inset: 0;
       display: flex;
-      gap: 1.5rem;
       align-items: center;
       justify-content: center;
+      padding: 2rem;
+      opacity: 0;
+      pointer-events: none;
       transition: opacity 0.6s ease;
+      z-index: 10;
     }
 
-    .project-link {
-      position: relative;
-      display: block;
-      width: clamp(48px, 10vw, 64px);
-      height: clamp(48px, 10vw, 64px);
-      border-radius: 16px;
-      overflow: hidden;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-      cursor: pointer;
-    }
-
-    .project-link:hover {
-      transform: scale(1.1);
-      box-shadow: 0 4px 20px rgba(0,0,0,0.3);
-    }
-
-    .project-icon {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-      filter: grayscale(1) contrast(1.1);
-      transition: filter 0.3s ease;
-    }
-
-    .project-link:hover .project-icon {
-      filter: none;
-    }
-
-    .project-link::before,
-    .project-link::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      mix-blend-mode: color;
-      pointer-events: none;
-    }
-
-    .project-link::before {
-      background: var(--icon-gradient-old, #888);
-      z-index: 1;
-    }
-
-    .project-link::after {
-      background: var(--icon-gradient-new, #888);
-      opacity: 0;
-      transition: opacity 2.5s ease;
-      z-index: 2;
-    }
-
-    .icon-crossfading .project-link::after {
+    .about.visible {
       opacity: 1;
+      pointer-events: auto;
     }
 
-    .project-link:hover::before,
-    .project-link:hover::after {
-      opacity: 0 !important;
-      transition: opacity 0.3s ease !important;
-    }
-
-    .content.expanded .projects {
-      opacity: 0;
-      pointer-events: none;
+    .overlay-text {
+      width: min(520px, 80vw);
+      font-size: clamp(0.9rem, 2vw, 1.05rem);
+      font-weight: 300;
+      line-height: 1.8;
+      text-align: center;
+      letter-spacing: 0.02em;
     }
 
     .project-detail {
-      position: absolute;
+      position: fixed;
+      inset: 0;
       display: flex;
       flex-direction: column;
       align-items: center;
+      justify-content: center;
       gap: 1.5rem;
+      padding: 2rem;
       opacity: 0;
       pointer-events: none;
       transition: opacity 0.6s ease;
-    }
-
-    .overlay-close {
-      position: absolute;
-      top: calc(env(safe-area-inset-top, 0px) + 4px);
-      right: clamp(8px, 2.5vw, 14px);
-      width: clamp(34px, 8vw, 40px);
-      height: clamp(34px, 8vw, 40px);
-      border: none;
-      border-radius: 0;
-      background: transparent;
-      color: inherit;
-      display: grid;
-      place-items: center;
-      cursor: pointer;
-      z-index: 3;
-      transition: transform 0.2s ease, opacity 0.2s ease;
-      opacity: 0.9;
-    }
-
-    .overlay-close:hover {
-      transform: scale(1.05);
-      opacity: 1;
-    }
-
-    .overlay-close svg {
-      width: 18px;
-      height: 18px;
-      stroke: currentColor;
-      fill: none;
-      stroke-width: 2.2;
-      stroke-linecap: round;
-      stroke-linejoin: round;
+      z-index: 10;
     }
 
     .project-detail.visible {
@@ -288,19 +138,6 @@
       font-size: clamp(1.1rem, 2.5vw, 1.4rem);
       font-weight: 400;
       letter-spacing: 0.03em;
-      color: #ffffff;
-      transition: color 2.5s ease;
-    }
-
-    .project-detail-blurb {
-      width: min(440px, 85vw);
-      font-size: clamp(0.85rem, 1.8vw, 0.95rem);
-      font-weight: 300;
-      line-height: 1.7;
-      color: #aaa;
-      text-align: center;
-      letter-spacing: 0.02em;
-      transition: color 2.5s ease;
     }
 
     .project-detail-links {
@@ -309,8 +146,6 @@
       align-items: center;
       justify-content: center;
       margin-top: 0.5rem;
-      color: #aaa;
-      transition: color 2.5s ease;
     }
 
     .project-detail-links a {
@@ -322,8 +157,8 @@
       font-size: 0.8rem;
       font-weight: 300;
       letter-spacing: 0.03em;
-      transition: opacity 0.3s ease;
       opacity: 0.7;
+      transition: opacity 0.3s ease;
     }
 
     .project-detail-links a:hover {
@@ -336,385 +171,295 @@
       fill: currentColor;
     }
 
-    .content.project-open .logo-wrap,
-    .content.project-open .mission,
-    .content.project-open .projects {
-      opacity: 0;
-      pointer-events: none;
-    }
-
-    .about {
+    .close-btn {
       position: fixed;
-      inset: 0;
-      z-index: 5;
-      display: grid;
-      place-items: center;
-      padding: 1.25rem;
-      opacity: 0;
-      visibility: hidden;
-      pointer-events: none;
-      background: #050505;
-      transition: opacity 0.35s ease, visibility 0s linear 0.35s;
+      top: 2rem;
+      right: 2rem;
+      top: calc(3rem + env(safe-area-inset-top));
+      right: calc(2rem + env(safe-area-inset-right));
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0.5rem;
+      opacity: 0.4;
+      transition: opacity 0.3s ease;
+      z-index: 11;
     }
 
-    .about-content {
+    .close-btn:hover, .close-btn:active {
+      opacity: 0.8;
+    }
+
+    .close-btn svg {
+      width: 24px;
+      height: 24px;
+    }
+
+    .logo-wrap {
+      width: min(420px, 65vw);
+      cursor: pointer;
+      margin: 2rem;
+      transition: opacity 0.6s ease;
+    }
+
+    .logo {
+      width: 100%;
+      height: auto;
+      display: block;
+      filter:
+        brightness(0)
+        drop-shadow(0 0 12px rgba(80,30,100,0.2));
+    }
+
+    .projects {
+      display: flex;
+      gap: 1.05rem;
+      align-items: center;
+      justify-content: center;
+      margin-top: 3rem;
+      transition: opacity 0.6s ease;
+    }
+
+    .project-wrap {
       position: relative;
-      width: min(520px, 88vw);
-      padding: 3.25rem 1.5rem 1.5rem;
-      font-size: clamp(0.9rem, 2vw, 1.05rem);
-      font-weight: 300;
-      line-height: 1.8;
-      color: #aaa;
-      text-align: center;
-      letter-spacing: 0.02em;
+      width: clamp(58px, 12vw, 77px);
+      height: clamp(58px, 12vw, 77px);
+      border-radius: 16px;
+      overflow: hidden;
     }
 
-    .about .overlay-close {
-      top: calc(env(safe-area-inset-top, 0px) + 4px);
-      right: 0.85rem;
+    .project-wrap {
+      transition: transform 0.15s ease;
     }
 
-    .about.visible {
-      opacity: 1;
-      visibility: visible;
-      transition-delay: 0s;
-      pointer-events: auto;
+    .project-wrap:active {
+      transform: scale(0.9);
     }
 
-    .content.expanded .logo-wrap {
-      opacity: 0;
+    .project-wrap::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--icon-gradient, #888);
+      mix-blend-mode: color;
       pointer-events: none;
+      z-index: 1;
     }
 
-    .content.expanded .mission {
-      opacity: 0;
-      pointer-events: none;
-    }
-
-    .email-wrapper {
-      position: fixed;
-      bottom: 2.5rem;
-      left: 0;
-      right: 0;
-      text-align: center;
+    .project-icon {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      filter: grayscale(1) contrast(1.1);
     }
 
     .email {
-      color: #555;
+      margin-top: 3rem;
+      color: #5a3a6a;
       text-decoration: none;
       font-size: 0.875rem;
       font-weight: 300;
       letter-spacing: 0.08em;
-      transition: color 2.5s ease, text-shadow 0.5s ease;
+      transition: color 0.3s ease, opacity 0.6s ease;
     }
 
     .email:hover {
-      color: #c0c0c0;
-      text-shadow:
-        0 0 10px rgba(131, 56, 236, 0.5),
-        0 0 30px rgba(255, 0, 110, 0.2);
+      color: #2a1a3a;
     }
 
+    .mission {
+      font-size: clamp(1.25rem, 3vw, 1.75rem);
+      font-weight: 300;
+      letter-spacing: 0.04em;
+      color: #3a1a4a;
+      text-align: center;
+      padding: 0 2rem;
+      transition: opacity 0.6s ease;
+    }
   </style>
 </head>
-<body>
-  <div class="bg-layer bg-back" id="bgBack"></div>
-  <div class="bg-layer bg-front" id="bgFront"></div>
-  <main class="content">
-    <h1 class="sr-only">Burning Bush — Creative Studio</h1>
+<body ontouchstart>
+  <div class="content" id="content">
     <div class="logo-wrap" id="logoWrap">
-      <img src="logo.svg" alt="" class="logo logo-back" id="logoBack">
-      <img src="logo.svg" alt="Burning Bush" class="logo logo-front" id="logoFront">
+      <img src="logo.svg" alt="Burning Bush" class="logo">
     </div>
     <p class="mission">behold, the bush was burning, yet it was not consumed.</p>
     <div class="projects">
-      <a href="#" class="project-link" data-project="lavajump"><img src="projects/lavajump.png" alt="Lava Jump" class="project-icon"></a>
-      <a href="#" class="project-link" data-project="bookluv"><img src="projects/bookluv.png" alt="BookLuv" class="project-icon"></a>
-      <a href="#" class="project-link" data-project="reveal"><img src="projects/reveal.png" alt="Reveal" class="project-icon"></a>
+      <div class="project-wrap" data-project="lavajump"><img src="projects/lavajump_1_1x.webp" alt="Lava Jump" class="project-icon"></div>
+      <div class="project-wrap" data-project="bookluv"><img src="projects/bookluv_1_1x.webp" alt="BookLuv" class="project-icon"></div>
+      <div class="project-wrap" data-project="reveal"><img src="projects/reveal_1_1x.webp" alt="Reveal" class="project-icon"></div>
     </div>
-    <div class="project-detail" id="projectDetail">
-      <button class="overlay-close" id="projectCloseBtn" aria-label="Close project details">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg>
-      </button>
-      <img class="project-detail-icon" id="projectDetailIcon" src="" alt="">
-      <p class="project-detail-name" id="projectDetailName"></p>
-      <p class="project-detail-blurb" id="projectDetailBlurb"></p>
-      <div class="project-detail-links" id="projectDetailLinks"></div>
-    </div>
-    <div class="about" id="about" role="dialog" aria-label="About Burning Bush">
-      <div class="about-content" id="aboutContent">
-        <button class="overlay-close" id="aboutCloseBtn" aria-label="Close about">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg>
-        </button>
-        We build the things we feel like building, with or without AI we guess. We enjoy the process and the outcomes and choose the things we'll be proud telling other people about, big or small (the things, not the people. The people's size don't matter to us at this point). And who is "we"!? for heaven's sake.
-      </div>
-    </div>
-  </main>
-  <script>
-    const logoWrap = document.getElementById('logoWrap');
-    const about = document.getElementById('about');
-    const aboutContent = document.getElementById('aboutContent');
-    const aboutCloseBtn = document.getElementById('aboutCloseBtn');
-    const content = document.querySelector('.content');
-    let expanded = false;
-    let aboutRevealTimer = null;
-
-    const closeAbout = () => {
-      expanded = false;
-      clearTimeout(aboutRevealTimer);
-      about.classList.remove('visible');
-      content.classList.remove('expanded');
-    };
-
-    logoWrap.addEventListener('click', () => {
-      if (expanded) return;
-      expanded = true;
-      content.classList.add('expanded');
-
-      // Let the top layer fade out first to avoid seeing the about text through the logo on mobile.
-      clearTimeout(aboutRevealTimer);
-      aboutRevealTimer = setTimeout(() => {
-        if (expanded) about.classList.add('visible');
-      }, 220);
-    });
-
-    about.addEventListener('click', (e) => {
-      if (e.target.closest('#aboutContent')) return;
-      closeAbout();
-    });
-
-    aboutContent.addEventListener('click', (e) => {
-      e.stopPropagation();
-    });
-
-    aboutCloseBtn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      closeAbout();
-    });
-
-    const svgApple = '<svg viewBox="0 0 24 24"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>';
-    const svgGlobe = '<svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>';
-
-    const projectData = {
-      lavajump: {
-        name: 'Lava Jump',
-        icon: 'projects/lavajump.png',
-        blurb: 'We wanted our kids to actually learn something while staring at a screen, so we built a game where they jump over lava and accidentally learn letters and numbers. It works. They think they\'re playing. We know better.',
-        links: [
-          { label: 'App Store', icon: svgApple, url: 'https://apps.apple.com/us/app/lava-jump-learn-play-3-8-yo/id6756043343' },
-          { label: 'Web', icon: svgGlobe, url: 'https://yossisadoun.github.io/lava-jump/' }
-        ]
-      },
-      bookluv: {
-        name: 'BookLuv',
-        icon: 'projects/bookluv.png',
-        blurb: 'We kept finishing books and realizing we missed half the point. So we built a thing that gives you the full picture — characters, timelines, context, maps, the "did you know" stuff your English teacher never mentioned. Add a book, get the world around it. No more Wikipedia rabbit holes at 2am (okay, fewer).',
-        links: [
-          { label: 'Web', icon: svgGlobe, url: 'https://yossisadoun.github.io/book_review/' }
-        ]
-      },
-      reveal: {
-        name: 'Reveal',
-        icon: 'projects/reveal.png',
-        blurb: 'We got tired of watching vectors just sit there doing nothing. So we built a thing — pick your layers in Figma, animate them on a timeline, export to video, GIF, or JSON. It\'s a Figma plugin that makes your vectors move. That\'s it. That\'s the whole pitch.',
-        links: [
-          { label: 'Figma Plugin', icon: '<svg viewBox="0 0 24 24"><path d="M15.852 8.981h-4.588V0h4.588c2.476 0 4.49 2.014 4.49 4.49s-2.014 4.491-4.49 4.491zM12.735 7.51h3.117c1.665 0 3.019-1.355 3.019-3.019s-1.354-3.02-3.019-3.02h-3.117V7.51zm0 13.01h-3.117c-2.476 0-4.49-2.014-4.49-4.49s2.014-4.49 4.49-4.49h3.117v8.98zm-3.117-7.51c-1.665 0-3.019 1.355-3.019 3.02s1.354 3.02 3.019 3.02h1.647V13.01H9.618zm4.588-1.47H8.148c-2.476 0-4.49-2.014-4.49-4.49S5.672 2.56 8.148 2.56h6.058v8.98zm-4.588-7.51c-1.665 0-3.019 1.354-3.019 3.019s1.354 3.02 3.019 3.02h3.117V1.49h-3.117v4.54z"/><circle cx="15.852" cy="15.521" r="3.019"/></svg>', url: 'https://www.figma.com/community/plugin/1603794604656686212/reveal-vector-path-animation' },
-          { label: 'Demo File', icon: '<svg viewBox="0 0 24 24"><path d="M15.852 8.981h-4.588V0h4.588c2.476 0 4.49 2.014 4.49 4.49s-2.014 4.491-4.49 4.491zM12.735 7.51h3.117c1.665 0 3.019-1.355 3.019-3.019s-1.354-3.02-3.019-3.02h-3.117V7.51zm0 13.01h-3.117c-2.476 0-4.49-2.014-4.49-4.49s2.014-4.49 4.49-4.49h3.117v8.98zm-3.117-7.51c-1.665 0-3.019 1.355-3.019 3.02s1.354 3.02 3.019 3.02h1.647V13.01H9.618zm4.588-1.47H8.148c-2.476 0-4.49-2.014-4.49-4.49S5.672 2.56 8.148 2.56h6.058v8.98zm-4.588-7.51c-1.665 0-3.019 1.354-3.019 3.019s1.354 3.02 3.019 3.02h3.117V1.49h-3.117v4.54z"/><circle cx="15.852" cy="15.521" r="3.019"/></svg>', url: 'https://www.figma.com/community/file/1607874854121101597/reveal-figma-plugin' }
-        ]
-      }
-    };
-
-    const detailEl = document.getElementById('projectDetail');
-    const detailIcon = document.getElementById('projectDetailIcon');
-    const detailName = document.getElementById('projectDetailName');
-    const detailBlurb = document.getElementById('projectDetailBlurb');
-    const detailLinks = document.getElementById('projectDetailLinks');
-
-    document.querySelectorAll('.project-link').forEach(link => {
-      link.addEventListener('click', (e) => {
-        e.preventDefault();
-        const key = link.dataset.project;
-        const proj = projectData[key];
-        if (!proj) return;
-        detailIcon.src = proj.icon;
-        detailIcon.alt = proj.name;
-        detailName.textContent = proj.name;
-        detailBlurb.textContent = proj.blurb;
-        detailLinks.innerHTML = (proj.links || []).map(l =>
-          '<a href="' + l.url + '" target="_blank" rel="noopener">' + l.icon + ' ' + l.label + '</a>'
-        ).join('');
-        content.classList.add('project-open');
-        detailEl.classList.add('visible');
-      });
-    });
-
-    detailEl.addEventListener('click', (e) => {
-      if (e.target.closest('.project-detail-links a')) return;
-      content.classList.remove('project-open');
-      detailEl.classList.remove('visible');
-    });
-  </script>
-  <div class="email-wrapper">
     <a href="mailto:yossi@burning-bush.com" class="email">yossi@burning-bush.com</a>
   </div>
+  <div class="about" id="about">
+    <p class="overlay-text about-text">We build the things we feel like building, with or without AI we guess. We enjoy the process and the outcomes and choose the things we'll be proud telling other people about, big or small (the things, not the people. The people's size don't matter to us at this point). And who is "we"!? for heaven's sake.</p>
+  </div>
+  <div class="project-detail" id="projectDetail">
+    <img class="project-detail-icon" id="pdIcon" src="" alt="">
+    <p class="project-detail-name" id="pdName"></p>
+    <p class="overlay-text" id="pdBlurb"></p>
+    <div class="project-detail-links" id="pdLinks"></div>
+  </div>
+  <button class="close-btn" id="closeBtn" aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button>
+<script>
+  const content = document.getElementById('content');
+  const about = document.getElementById('about');
+  const projectDetail = document.getElementById('projectDetail');
+  const closeBtn = document.getElementById('closeBtn');
+  let activeOverlay = null;
 
-  <script>
-    const themes = [
-      { name: 'Neon Dark (current)', bg: '#050505', logo: 'invert(1) brightness(2) drop-shadow(0 0 20px rgba(131,56,236,0.4)) drop-shadow(0 0 60px rgba(255,0,110,0.2)) drop-shadow(0 0 100px rgba(58,134,255,0.15))', text: '#ffffff', email: '#555', about: '#aaa' },
-      { name: 'Midnight Blue', bg: '#0a0e1a', logo: 'invert(1) brightness(2) drop-shadow(0 0 25px rgba(100,149,237,0.5))', text: '#c8d6f0', email: '#4a5a80', about: '#8899bb' },
-      { name: 'Deep Charcoal', bg: '#1a1a1a', logo: 'invert(1) brightness(1.8) drop-shadow(0 0 15px rgba(255,255,255,0.15))', text: '#e0e0e0', email: '#666', about: '#999' },
-      { name: 'Warm Black + Gold', bg: '#0d0b07', logo: 'invert(1) brightness(1.5) sepia(1) saturate(3) hue-rotate(5deg) drop-shadow(0 0 30px rgba(218,165,32,0.4))', text: '#d4a843', email: '#6b5a2e', about: '#a08840' },
-      { name: 'Bone White + Black', bg: '#f0ece4', logo: 'brightness(0) drop-shadow(0 0 10px rgba(0,0,0,0.1))', text: '#1a1a1a', email: '#999', about: '#555' },
-      { name: 'Cream + Rust', bg: '#faf5ef', logo: 'brightness(0) sepia(1) saturate(5) hue-rotate(340deg) drop-shadow(0 0 12px rgba(180,60,30,0.2))', text: '#8b3a2a', email: '#bba090', about: '#9b5a4a' },
-      { name: 'Forest', bg: '#0a1208', logo: 'invert(1) brightness(1.5) sepia(1) saturate(2) hue-rotate(80deg) drop-shadow(0 0 30px rgba(80,200,80,0.3))', text: '#7dba6d', email: '#3a5a30', about: '#6a9a5a' },
-      { name: 'Plum + Lavender', bg: '#1a0a20', logo: 'invert(1) brightness(1.8) sepia(1) saturate(3) hue-rotate(260deg) drop-shadow(0 0 30px rgba(180,100,255,0.4))', text: '#d4b8f0', email: '#6a4a80', about: '#a080c0' },
-      { name: 'Ice White', bg: '#f5f8fc', logo: 'brightness(0) opacity(0.8) drop-shadow(0 0 20px rgba(100,150,200,0.2))', text: '#2a3a50', email: '#a0b0c0', about: '#5a6a80' },
-      { name: 'Red + Off-white', bg: '#faf6f2', logo: 'brightness(0) sepia(1) saturate(20) hue-rotate(0deg) drop-shadow(0 0 12px rgba(200,0,0,0.15))', text: '#c0392b', email: '#d0a0a0', about: '#a04030' },
-      { name: 'Gradient — Dusk', bg: 'linear-gradient(160deg, #0f0c29, #302b63, #24243e)', logo: 'invert(1) brightness(2) drop-shadow(0 0 25px rgba(140,100,255,0.5))', text: '#e0d0ff', email: '#5a4a80', about: '#a090cc' },
-      { name: 'Gradient — Ember', bg: 'linear-gradient(160deg, #1a0000, #3d0c02, #1a0505)', logo: 'invert(1) brightness(1.6) sepia(1) saturate(4) hue-rotate(350deg) drop-shadow(0 0 30px rgba(255,80,20,0.4))', text: '#ff9a76', email: '#6b3a2a', about: '#cc7755' },
-      { name: 'Gradient — Ocean', bg: 'linear-gradient(160deg, #0c1220, #0a2a3a, #0c1a28)', logo: 'invert(1) brightness(2) sepia(1) saturate(2) hue-rotate(160deg) drop-shadow(0 0 25px rgba(0,200,200,0.4))', text: '#70d4d4', email: '#2a5a5a', about: '#50a0a0' },
-      { name: 'Gradient — Aurora', bg: 'linear-gradient(160deg, #0a0a1a, #1a0a2a, #0a1a1a)', logo: 'invert(1) brightness(2) drop-shadow(0 0 20px rgba(100,255,150,0.3)) drop-shadow(0 0 50px rgba(150,50,255,0.3))', text: '#a0f0c0', email: '#3a6a4a', about: '#70c090' },
-      { name: 'Gradient — Sunset', bg: 'linear-gradient(160deg, #1a0a10, #2a1020, #1a1020)', logo: 'invert(1) brightness(1.8) sepia(1) saturate(3) hue-rotate(320deg) drop-shadow(0 0 25px rgba(255,100,150,0.4))', text: '#ffa0c0', email: '#6a3050', about: '#cc7090' },
-      { name: 'Warm Flame', bg: 'linear-gradient(45deg, #ff9a9e 0%, #fad0c4 99%, #fad0c4 100%)', logo: 'brightness(0) drop-shadow(0 0 12px rgba(150,40,40,0.15))', text: '#5a1a1a', email: '#b08080', about: '#7a3a3a' },
-      { name: 'Night Fade', bg: 'linear-gradient(to top, #a18cd1 0%, #fbc2eb 100%)', logo: 'brightness(0) drop-shadow(0 0 12px rgba(80,30,100,0.2))', text: '#3a1a4a', email: '#8060a0', about: '#5a3a6a' },
-      { name: 'Spring Warmth', bg: 'linear-gradient(to top, #fad0c4 0%, #ffd1ff 100%)', logo: 'brightness(0) drop-shadow(0 0 12px rgba(120,50,80,0.15))', text: '#5a2a3a', email: '#b08090', about: '#7a4a5a' },
-      { name: 'Juicy Peach', bg: 'linear-gradient(to right, #ffecd2 0%, #fcb69f 100%)', logo: 'brightness(0) drop-shadow(0 0 12px rgba(150,70,30,0.15))', text: '#5a2a10', email: '#c09070', about: '#7a4a30' },
-      { name: 'Young Passion', bg: 'linear-gradient(to right, #ff8177 0%, #ff867a 0%, #ff8c7f 21%, #f99185 52%, #cf556c 78%, #b12a5b 100%)', logo: 'brightness(0) drop-shadow(0 0 12px rgba(100,10,40,0.2))', text: '#3a0a15', email: '#904050', about: '#6a2030' },
-      { name: 'Lady Lips', bg: 'linear-gradient(to top, #ff9a9e 0%, #fecfef 99%, #fecfef 100%)', logo: 'brightness(0) drop-shadow(0 0 12px rgba(130,30,50,0.15))', text: '#5a1a2a', email: '#b07080', about: '#7a3a4a' },
-      { name: 'Sunny Morning', bg: 'linear-gradient(120deg, #f6d365 0%, #fda085 100%)', logo: 'brightness(0) drop-shadow(0 0 12px rgba(180,80,30,0.2))', text: '#5a2a10', email: '#c09070', about: '#7a4a30' },
-      { name: 'Rainy Ashville', bg: 'linear-gradient(to top, #fbc2eb 0%, #a6c1ee 100%)', logo: 'brightness(0) drop-shadow(0 0 12px rgba(60,40,100,0.2))', text: '#2a2a4a', email: '#8070a0', about: '#4a4a6a' },
-      { name: 'Frozen Dreams', bg: 'linear-gradient(to top, #fdcbf1 0%, #fdcbf1 1%, #e6dee9 100%)', logo: 'brightness(0) drop-shadow(0 0 12px rgba(100,50,80,0.15))', text: '#4a2a3a', email: '#a08090', about: '#6a4a5a' },
-      { name: 'Winter Neva', bg: 'linear-gradient(120deg, #a1c4fd 0%, #c2e9fb 100%)', logo: 'brightness(0) drop-shadow(0 0 12px rgba(20,50,100,0.2))', text: '#1a2a4a', email: '#6080b0', about: '#3a4a6a' },
-      { name: 'Dusty Grass', bg: 'linear-gradient(120deg, #d4fc79 0%, #96e6a1 100%)', logo: 'brightness(0) drop-shadow(0 0 12px rgba(30,80,20,0.2))', text: '#1a3a10', email: '#508040', about: '#2a5a20' },
-      { name: 'Tempting Azure', bg: 'linear-gradient(120deg, #84fab0 0%, #8fd3f4 100%)', logo: 'brightness(0) drop-shadow(0 0 12px rgba(0,80,80,0.2))', text: '#1a3a3a', email: '#508080', about: '#2a5a5a' },
-      { name: 'Heavy Rain', bg: 'linear-gradient(to top, #cfd9df 0%, #e2ebf0 100%)', logo: 'brightness(0) drop-shadow(0 0 10px rgba(0,0,0,0.08))', text: '#2a3040', email: '#8090a0', about: '#4a5060' },
-      { name: 'Amy Crisp', bg: 'linear-gradient(120deg, #a6c0fe 0%, #f68084 100%)', logo: 'brightness(0) drop-shadow(0 0 12px rgba(60,30,60,0.2))', text: '#2a1a3a', email: '#806080', about: '#4a3a5a' },
-      { name: 'Mean Fruit', bg: 'linear-gradient(120deg, #fccb90 0%, #d57eeb 100%)', logo: 'brightness(0) drop-shadow(0 0 12px rgba(80,30,90,0.2))', text: '#3a1a4a', email: '#9060a0', about: '#5a3a6a' },
-      { name: 'Deep Blue', bg: 'linear-gradient(120deg, #e0c3fc 0%, #8ec5fc 100%)', logo: 'brightness(0) drop-shadow(0 0 12px rgba(30,40,100,0.2))', text: '#1a2a50', email: '#6070a0', about: '#3a4a70' },
-      { name: 'Ripe Malinka', bg: 'linear-gradient(120deg, #f093fb 0%, #f5576c 100%)', logo: 'brightness(0) drop-shadow(0 0 12px rgba(100,10,40,0.2))', text: '#4a0a20', email: '#a04060', about: '#6a2040' },
-      { name: 'Cloudy Knoxville', bg: 'linear-gradient(120deg, #fdfbfb 0%, #ebedee 100%)', logo: 'brightness(0) drop-shadow(0 0 10px rgba(0,0,0,0.06))', text: '#2a2a30', email: '#a0a0a8', about: '#505058' },
-      { name: 'Malibu Beach', bg: 'linear-gradient(to right, #4facfe 0%, #00f2fe 100%)', logo: 'brightness(0) drop-shadow(0 0 12px rgba(0,40,100,0.2))', text: '#0a1a3a', email: '#306080', about: '#1a3a5a' },
-      { name: 'New Life', bg: 'linear-gradient(to right, #43e97b 0%, #38f9d7 100%)', logo: 'brightness(0) drop-shadow(0 0 12px rgba(0,60,40,0.2))', text: '#0a2a1a', email: '#308060', about: '#1a4a3a' },
-      { name: 'True Sunset', bg: 'linear-gradient(to right, #fa709a 0%, #fee140 100%)', logo: 'brightness(0) drop-shadow(0 0 12px rgba(120,30,20,0.2))', text: '#4a1a10', email: '#a06050', about: '#6a3a2a' },
-      { name: 'Morpheus Den', bg: 'linear-gradient(to top, #30cfd0 0%, #330867 100%)', logo: 'invert(1) brightness(2) drop-shadow(0 0 20px rgba(50,200,210,0.4))', text: '#a0f0f0', email: '#407080', about: '#60b0b0' },
-      { name: 'Rare Wind', bg: 'linear-gradient(to top, #a8edea 0%, #fed6e3 100%)', logo: 'brightness(0) drop-shadow(0 0 12px rgba(100,50,80,0.15))', text: '#3a2a30', email: '#907080', about: '#5a4a50' },
-      { name: 'Near Moon', bg: 'linear-gradient(to top, #5ee7df 0%, #b490ca 100%)', logo: 'brightness(0) drop-shadow(0 0 12px rgba(40,40,80,0.2))', text: '#1a2a3a', email: '#607080', about: '#3a4a5a' },
-      { name: 'Wild Apple', bg: 'linear-gradient(to top, #d299c2 0%, #fef9d7 100%)', logo: 'brightness(0) drop-shadow(0 0 12px rgba(100,40,70,0.15))', text: '#4a1a3a', email: '#a07090', about: '#6a3a5a' },
-      { name: 'Saint Petersburg', bg: 'linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)', logo: 'brightness(0) drop-shadow(0 0 10px rgba(0,0,0,0.08))', text: '#2a3040', email: '#8090a8', about: '#4a5068' },
-      { name: "Arielle's Smile", bg: 'radial-gradient(circle 248px at center, #16d9e3 0%, #30c7ec 47%, #46aef7 100%)', logo: 'brightness(0) drop-shadow(0 0 12px rgba(0,40,80,0.2))', text: '#0a1a30', email: '#306090', about: '#1a3a50' },
-      { name: 'Plum Plate', bg: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', logo: 'invert(1) brightness(2) drop-shadow(0 0 15px rgba(100,70,180,0.4))', text: '#f0e8ff', email: '#9080c0', about: '#c0b0e0' },
-      { name: 'Everlasting Sky', bg: 'linear-gradient(135deg, #fdfcfb 0%, #e2d1c3 100%)', logo: 'brightness(0) drop-shadow(0 0 10px rgba(0,0,0,0.08))', text: '#3a2a20', email: '#a09080', about: '#5a4a3a' },
-      { name: 'Happy Fisher', bg: 'linear-gradient(120deg, #89f7fe 0%, #66a6ff 100%)', logo: 'brightness(0) drop-shadow(0 0 12px rgba(0,30,100,0.2))', text: '#0a1a3a', email: '#305080', about: '#1a3050' },
-    ];
+  const svgApple = '<svg viewBox="0 0 24 24"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>';
+  const svgGlobe = '<svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>';
+  const svgFigma = '<svg viewBox="0 0 24 24"><path d="M15.852 8.981h-4.588V0h4.588c2.476 0 4.49 2.014 4.49 4.49s-2.014 4.491-4.49 4.491zM12.735 7.51h3.117c1.665 0 3.019-1.355 3.019-3.019s-1.354-3.02-3.019-3.02h-3.117V7.51zm0 13.01h-3.117c-2.476 0-4.49-2.014-4.49-4.49s2.014-4.49 4.49-4.49h3.117v8.98zm-3.117-7.51c-1.665 0-3.019 1.355-3.019 3.02s1.354 3.02 3.019 3.02h1.647V13.01H9.618zm4.588-1.47H8.148c-2.476 0-4.49-2.014-4.49-4.49S5.672 2.56 8.148 2.56h6.058v8.98zm-4.588-7.51c-1.665 0-3.019 1.354-3.019 3.019s1.354 3.02 3.019 3.02h3.117V1.49h-3.117v4.54z"/><circle cx="15.852" cy="15.521" r="3.019"/></svg>';
 
-    let currentTheme = Math.floor(Math.random() * themes.length);
-    let transitioning = false;
-    const logoFront = document.getElementById('logoFront');
-    const logoBack = document.getElementById('logoBack');
-    const missionEl = document.querySelector('.mission');
-    const aboutEl2 = document.getElementById('about');
-    const emailEl = document.querySelector('.email');
-    const bgFront = document.getElementById('bgFront');
-    const bgBack = document.getElementById('bgBack');
-    const themeColorMeta = document.getElementById('themeColorMeta');
-
-    function pickThemeColor(bgValue) {
-      const hex = (bgValue || '').match(/#(?:[0-9a-fA-F]{3}){1,2}/);
-      return hex ? hex[0] : '#050505';
+  const projectData = {
+    lavajump: {
+      name: 'Lava Jump',
+      icon: 'projects/lavajump_1_1x.webp',
+      blurb: 'We wanted our kids to actually learn something while staring at a screen, so we built a game where they jump over lava and accidentally learn letters and numbers. It works. They think they\'re playing. We know better.',
+      links: [
+        { label: 'App Store', icon: svgApple, url: 'https://apps.apple.com/us/app/lava-jump-learn-play-3-8-yo/id6756043343' },
+        { label: 'Web', icon: svgGlobe, url: 'https://yossisadoun.github.io/lava-jump/' }
+      ]
+    },
+    bookluv: {
+      name: 'BookLuv',
+      icon: 'projects/bookluv_1_1x.webp',
+      blurb: 'We kept finishing books and realizing we missed half the point. So we built a thing that gives you the full picture \u2014 characters, timelines, context, maps, the \u201Cdid you know\u201D stuff your English teacher never mentioned. Add a book, get the world around it. No more Wikipedia rabbit holes at 2am (okay, fewer).',
+      links: [
+        { label: 'Web', icon: svgGlobe, url: 'https://yossisadoun.github.io/book_review/' }
+      ]
+    },
+    reveal: {
+      name: 'Reveal',
+      icon: 'projects/reveal_1_1x.webp',
+      blurb: 'We got tired of watching vectors just sit there doing nothing. So we built a thing \u2014 pick your layers in Figma, animate them on a timeline, export to video, GIF, or JSON. It\'s a Figma plugin that makes your vectors move. That\'s it. That\'s the whole pitch.',
+      links: [
+        { label: 'Figma Plugin', icon: svgFigma, url: 'https://www.figma.com/community/plugin/1603794604656686212/reveal-vector-path-animation' },
+        { label: 'Demo File', icon: svgFigma, url: 'https://www.figma.com/community/file/1607874854121101597/reveal-figma-plugin' }
+      ]
     }
+  };
 
-    (function initTheme() {
-      const t = themes[currentTheme];
-      const root = document.documentElement;
-      bgFront.style.transition = 'none';
-      bgFront.style.background = t.bg;
-      if (themeColorMeta) themeColorMeta.setAttribute('content', pickThemeColor(t.bg));
-      logoFront.style.transition = 'none';
-      logoFront.style.filter = t.logo;
-      missionEl.style.transition = 'none';
-      missionEl.style.color = t.text;
-      aboutEl2.style.transition = 'none';
-      aboutEl2.style.color = t.about;
-      aboutEl2.style.background = t.bg;
-      emailEl.style.transition = 'none';
-      emailEl.style.color = t.email;
-      detailName.style.transition = 'none';
-      detailName.style.color = t.text;
-      detailBlurb.style.transition = 'none';
-      detailBlurb.style.color = t.about;
-      detailLinks.style.transition = 'none';
-      detailLinks.style.color = t.about;
-      root.style.setProperty('--icon-gradient-old', t.bg);
-      void bgFront.offsetHeight;
-      bgFront.style.transition = 'opacity 2.5s ease';
-      logoFront.style.transition = 'opacity 2.5s ease';
-      missionEl.style.transition = 'color 2.5s ease, opacity 0.6s ease';
-      aboutEl2.style.transition = 'color 2.5s ease, opacity 0.35s ease';
-      emailEl.style.transition = 'color 2.5s ease, text-shadow 0.5s ease';
-      detailName.style.transition = 'color 2.5s ease';
-      detailBlurb.style.transition = 'color 2.5s ease';
-      detailLinks.style.transition = 'color 2.5s ease';
-    })();
+  function showOverlay(overlay) {
+    content.classList.add('faded');
+    activeOverlay = overlay;
+    setTimeout(() => {
+      overlay.classList.add('visible');
+      closeBtn.style.opacity = '';
+      closeBtn.style.pointerEvents = '';
+    }, 600);
+  }
 
-    function applyTheme(i) {
-      if (transitioning) return;
-      const t = themes[i];
-      transitioning = true;
+  function hideOverlay() {
+    if (!activeOverlay) return;
+    activeOverlay.classList.remove('visible');
+    closeBtn.style.opacity = '0';
+    closeBtn.style.pointerEvents = 'none';
+    activeOverlay = null;
+    setTimeout(() => {
+      content.classList.remove('faded');
+    }, 600);
+  }
 
-      const root = document.documentElement;
-      const proj = document.querySelector('.projects');
-      root.style.setProperty('--icon-gradient-new', t.bg);
-      void proj.offsetHeight;
-      proj.classList.add('icon-crossfading');
+  document.getElementById('logoWrap').addEventListener('click', () => showOverlay(about));
 
-      bgBack.style.background = t.bg;
-      if (themeColorMeta) themeColorMeta.setAttribute('content', pickThemeColor(t.bg));
+  document.querySelectorAll('.project-wrap').forEach(wrap => {
+    wrap.addEventListener('click', () => {
+      const proj = projectData[wrap.dataset.project];
+      if (!proj) return;
+      document.getElementById('pdIcon').src = proj.icon;
+      document.getElementById('pdIcon').alt = proj.name;
+      document.getElementById('pdName').textContent = proj.name;
+      document.getElementById('pdBlurb').textContent = proj.blurb;
+      document.getElementById('pdLinks').innerHTML = proj.links.map(l =>
+        '<a href="' + l.url + '" target="_blank" rel="noopener">' + l.icon + ' ' + l.label + '</a>'
+      ).join('');
+      showOverlay(projectDetail);
+    });
+  });
 
-      logoBack.style.transition = 'none';
-      logoBack.style.filter = t.logo;
-      logoBack.style.opacity = '0';
-      void logoBack.offsetHeight;
-      logoBack.style.transition = 'opacity 2.5s ease';
+  closeBtn.addEventListener('click', hideOverlay);
 
-      bgFront.style.opacity = '0';
-      logoFront.style.opacity = '0';
-      logoBack.style.opacity = '1';
+  // Hide close button initially
+  closeBtn.style.opacity = '0';
+  closeBtn.style.pointerEvents = 'none';
 
-      missionEl.style.color = t.text;
-      aboutEl2.style.color = t.about;
-      aboutEl2.style.background = t.bg;
-      emailEl.style.color = t.email;
-      detailName.style.color = t.text;
-      detailBlurb.style.color = t.about;
-      detailLinks.style.color = t.about;
+  const themes = [
+    { name: 'Neon Dark', bg: '#050505', top: '#050505', bottom: '#050505', logo: 'invert(1) brightness(2) drop-shadow(0 0 20px rgba(131,56,236,0.4)) drop-shadow(0 0 60px rgba(255,0,110,0.2)) drop-shadow(0 0 100px rgba(58,134,255,0.15))', text: '#ffffff', email: '#555', about: '#aaa' },
+    { name: 'Midnight Blue', bg: '#0a0e1a', top: '#0a0e1a', bottom: '#0a0e1a', logo: 'invert(1) brightness(2) drop-shadow(0 0 25px rgba(100,149,237,0.5))', text: '#c8d6f0', email: '#4a5a80', about: '#8899bb' },
+    { name: 'Deep Charcoal', bg: '#1a1a1a', top: '#1a1a1a', bottom: '#1a1a1a', logo: 'invert(1) brightness(1.8) drop-shadow(0 0 15px rgba(255,255,255,0.15))', text: '#e0e0e0', email: '#666', about: '#999' },
+    { name: 'Warm Black + Gold', bg: '#0d0b07', top: '#0d0b07', bottom: '#0d0b07', logo: 'invert(1) brightness(1.5) sepia(1) saturate(3) hue-rotate(5deg) drop-shadow(0 0 30px rgba(218,165,32,0.4))', text: '#d4a843', email: '#6b5a2e', about: '#a08840' },
+    { name: 'Bone White + Black', bg: '#f0ece4', top: '#f0ece4', bottom: '#f0ece4', logo: 'brightness(0) drop-shadow(0 0 10px rgba(0,0,0,0.1))', text: '#1a1a1a', email: '#999', about: '#555' },
+    { name: 'Cream + Rust', bg: '#faf5ef', top: '#faf5ef', bottom: '#faf5ef', logo: 'brightness(0) sepia(1) saturate(5) hue-rotate(340deg) drop-shadow(0 0 12px rgba(180,60,30,0.2))', text: '#8b3a2a', email: '#bba090', about: '#9b5a4a' },
+    { name: 'Forest', bg: '#0a1208', top: '#0a1208', bottom: '#0a1208', logo: 'invert(1) brightness(1.5) sepia(1) saturate(2) hue-rotate(80deg) drop-shadow(0 0 30px rgba(80,200,80,0.3))', text: '#7dba6d', email: '#3a5a30', about: '#6a9a5a' },
+    { name: 'Plum + Lavender', bg: '#1a0a20', top: '#1a0a20', bottom: '#1a0a20', logo: 'invert(1) brightness(1.8) sepia(1) saturate(3) hue-rotate(260deg) drop-shadow(0 0 30px rgba(180,100,255,0.4))', text: '#d4b8f0', email: '#6a4a80', about: '#a080c0' },
+    { name: 'Ice White', bg: '#f5f8fc', top: '#f5f8fc', bottom: '#f5f8fc', logo: 'brightness(0) opacity(0.8) drop-shadow(0 0 20px rgba(100,150,200,0.2))', text: '#2a3a50', email: '#a0b0c0', about: '#5a6a80' },
+    { name: 'Red + Off-white', bg: '#faf6f2', top: '#faf6f2', bottom: '#faf6f2', logo: 'brightness(0) sepia(1) saturate(20) hue-rotate(0deg) drop-shadow(0 0 12px rgba(200,0,0,0.15))', text: '#c0392b', email: '#d0a0a0', about: '#a04030' },
+    { name: 'Gradient — Dusk', bg: 'linear-gradient(160deg, #0f0c29, #302b63, #24243e)', top: '#0f0c29', bottom: '#24243e', logo: 'invert(1) brightness(2) drop-shadow(0 0 25px rgba(140,100,255,0.5))', text: '#e0d0ff', email: '#5a4a80', about: '#a090cc' },
+    { name: 'Gradient — Ember', bg: 'linear-gradient(160deg, #1a0000, #3d0c02, #1a0505)', top: '#1a0000', bottom: '#1a0505', logo: 'invert(1) brightness(1.6) sepia(1) saturate(4) hue-rotate(350deg) drop-shadow(0 0 30px rgba(255,80,20,0.4))', text: '#ff9a76', email: '#6b3a2a', about: '#cc7755' },
+    { name: 'Gradient — Ocean', bg: 'linear-gradient(160deg, #0c1220, #0a2a3a, #0c1a28)', top: '#0c1220', bottom: '#0c1a28', logo: 'invert(1) brightness(2) sepia(1) saturate(2) hue-rotate(160deg) drop-shadow(0 0 25px rgba(0,200,200,0.4))', text: '#70d4d4', email: '#2a5a5a', about: '#50a0a0' },
+    { name: 'Gradient — Aurora', bg: 'linear-gradient(160deg, #0a0a1a, #1a0a2a, #0a1a1a)', top: '#0a0a1a', bottom: '#0a1a1a', logo: 'invert(1) brightness(2) drop-shadow(0 0 20px rgba(100,255,150,0.3)) drop-shadow(0 0 50px rgba(150,50,255,0.3))', text: '#a0f0c0', email: '#3a6a4a', about: '#70c090' },
+    { name: 'Gradient — Sunset', bg: 'linear-gradient(160deg, #1a0a10, #2a1020, #1a1020)', top: '#1a0a10', bottom: '#1a1020', logo: 'invert(1) brightness(1.8) sepia(1) saturate(3) hue-rotate(320deg) drop-shadow(0 0 25px rgba(255,100,150,0.4))', text: '#ffa0c0', email: '#6a3050', about: '#cc7090' },
+    { name: 'Warm Flame', bg: 'linear-gradient(45deg, #ff9a9e 0%, #fad0c4 100%)', top: '#fad0c4', bottom: '#ff9a9e', logo: 'brightness(0) drop-shadow(0 0 12px rgba(150,40,40,0.15))', text: '#5a1a1a', email: '#b08080', about: '#7a3a3a' },
+    { name: 'Night Fade', bg: 'linear-gradient(to top, #a18cd1 0%, #fbc2eb 100%)', top: '#fbc2eb', bottom: '#a18cd1', logo: 'brightness(0) drop-shadow(0 0 12px rgba(80,30,100,0.2))', text: '#3a1a4a', email: '#8060a0', about: '#5a3a6a' },
+    { name: 'Spring Warmth', bg: 'linear-gradient(to top, #fad0c4 0%, #ffd1ff 100%)', top: '#ffd1ff', bottom: '#fad0c4', logo: 'brightness(0) drop-shadow(0 0 12px rgba(120,50,80,0.15))', text: '#5a2a3a', email: '#b08090', about: '#7a4a5a' },
+    { name: 'Juicy Peach', bg: 'linear-gradient(to right, #ffecd2 0%, #fcb69f 100%)', top: '#ffecd2', bottom: '#ffecd2', logo: 'brightness(0) drop-shadow(0 0 12px rgba(150,70,30,0.15))', text: '#5a2a10', email: '#c09070', about: '#7a4a30' },
+    { name: 'Young Passion', bg: 'linear-gradient(to right, #ff8177 0%, #b12a5b 100%)', top: '#ff8177', bottom: '#ff8177', logo: 'brightness(0) drop-shadow(0 0 12px rgba(100,10,40,0.2))', text: '#3a0a15', email: '#904050', about: '#6a2030' },
+    { name: 'Lady Lips', bg: 'linear-gradient(to top, #ff9a9e 0%, #fecfef 100%)', top: '#fecfef', bottom: '#ff9a9e', logo: 'brightness(0) drop-shadow(0 0 12px rgba(130,30,50,0.15))', text: '#5a1a2a', email: '#b07080', about: '#7a3a4a' },
+    { name: 'Sunny Morning', bg: 'linear-gradient(120deg, #f6d365 0%, #fda085 100%)', top: '#f6d365', bottom: '#f6d365', logo: 'brightness(0) drop-shadow(0 0 12px rgba(180,80,30,0.2))', text: '#5a2a10', email: '#c09070', about: '#7a4a30' },
+    { name: 'Rainy Ashville', bg: 'linear-gradient(to top, #fbc2eb 0%, #a6c1ee 100%)', top: '#a6c1ee', bottom: '#fbc2eb', logo: 'brightness(0) drop-shadow(0 0 12px rgba(60,40,100,0.2))', text: '#2a2a4a', email: '#8070a0', about: '#4a4a6a' },
+    { name: 'Frozen Dreams', bg: 'linear-gradient(to top, #fdcbf1 0%, #e6dee9 100%)', top: '#e6dee9', bottom: '#fdcbf1', logo: 'brightness(0) drop-shadow(0 0 12px rgba(100,50,80,0.15))', text: '#4a2a3a', email: '#a08090', about: '#6a4a5a' },
+    { name: 'Winter Neva', bg: 'linear-gradient(120deg, #a1c4fd 0%, #c2e9fb 100%)', top: '#a1c4fd', bottom: '#a1c4fd', logo: 'brightness(0) drop-shadow(0 0 12px rgba(20,50,100,0.2))', text: '#1a2a4a', email: '#6080b0', about: '#3a4a6a' },
+    { name: 'Dusty Grass', bg: 'linear-gradient(120deg, #d4fc79 0%, #96e6a1 100%)', top: '#d4fc79', bottom: '#d4fc79', logo: 'brightness(0) drop-shadow(0 0 12px rgba(30,80,20,0.2))', text: '#1a3a10', email: '#508040', about: '#2a5a20' },
+    { name: 'Tempting Azure', bg: 'linear-gradient(120deg, #84fab0 0%, #8fd3f4 100%)', top: '#84fab0', bottom: '#84fab0', logo: 'brightness(0) drop-shadow(0 0 12px rgba(0,80,80,0.2))', text: '#1a3a3a', email: '#508080', about: '#2a5a5a' },
+    { name: 'Heavy Rain', bg: 'linear-gradient(to top, #cfd9df 0%, #e2ebf0 100%)', top: '#e2ebf0', bottom: '#cfd9df', logo: 'brightness(0) drop-shadow(0 0 10px rgba(0,0,0,0.08))', text: '#2a3040', email: '#8090a0', about: '#4a5060' },
+    { name: 'Amy Crisp', bg: 'linear-gradient(120deg, #a6c0fe 0%, #f68084 100%)', top: '#a6c0fe', bottom: '#a6c0fe', logo: 'brightness(0) drop-shadow(0 0 12px rgba(60,30,60,0.2))', text: '#2a1a3a', email: '#806080', about: '#4a3a5a' },
+    { name: 'Mean Fruit', bg: 'linear-gradient(120deg, #fccb90 0%, #d57eeb 100%)', top: '#fccb90', bottom: '#fccb90', logo: 'brightness(0) drop-shadow(0 0 12px rgba(80,30,90,0.2))', text: '#3a1a4a', email: '#9060a0', about: '#5a3a6a' },
+    { name: 'Deep Blue', bg: 'linear-gradient(120deg, #e0c3fc 0%, #8ec5fc 100%)', top: '#e0c3fc', bottom: '#e0c3fc', logo: 'brightness(0) drop-shadow(0 0 12px rgba(30,40,100,0.2))', text: '#1a2a50', email: '#6070a0', about: '#3a4a70' },
+    { name: 'Ripe Malinka', bg: 'linear-gradient(120deg, #f093fb 0%, #f5576c 100%)', top: '#f093fb', bottom: '#f093fb', logo: 'brightness(0) drop-shadow(0 0 12px rgba(100,10,40,0.2))', text: '#4a0a20', email: '#a04060', about: '#6a2040' },
+    { name: 'Cloudy Knoxville', bg: 'linear-gradient(120deg, #fdfbfb 0%, #ebedee 100%)', top: '#fdfbfb', bottom: '#fdfbfb', logo: 'brightness(0) drop-shadow(0 0 10px rgba(0,0,0,0.06))', text: '#2a2a30', email: '#a0a0a8', about: '#505058' },
+    { name: 'Malibu Beach', bg: 'linear-gradient(to right, #4facfe 0%, #00f2fe 100%)', top: '#4facfe', bottom: '#4facfe', logo: 'brightness(0) drop-shadow(0 0 12px rgba(0,40,100,0.2))', text: '#0a1a3a', email: '#306080', about: '#1a3a5a' },
+    { name: 'New Life', bg: 'linear-gradient(to right, #43e97b 0%, #38f9d7 100%)', top: '#43e97b', bottom: '#43e97b', logo: 'brightness(0) drop-shadow(0 0 12px rgba(0,60,40,0.2))', text: '#0a2a1a', email: '#308060', about: '#1a4a3a' },
+    { name: 'True Sunset', bg: 'linear-gradient(to right, #fa709a 0%, #fee140 100%)', top: '#fa709a', bottom: '#fa709a', logo: 'brightness(0) drop-shadow(0 0 12px rgba(120,30,20,0.2))', text: '#4a1a10', email: '#a06050', about: '#6a3a2a' },
+    { name: 'Morpheus Den', bg: 'linear-gradient(to top, #30cfd0 0%, #330867 100%)', top: '#330867', bottom: '#30cfd0', logo: 'invert(1) brightness(2) drop-shadow(0 0 20px rgba(50,200,210,0.4))', text: '#a0f0f0', email: '#407080', about: '#60b0b0' },
+    { name: 'Rare Wind', bg: 'linear-gradient(to top, #a8edea 0%, #fed6e3 100%)', top: '#fed6e3', bottom: '#a8edea', logo: 'brightness(0) drop-shadow(0 0 12px rgba(100,50,80,0.15))', text: '#3a2a30', email: '#907080', about: '#5a4a50' },
+    { name: 'Near Moon', bg: 'linear-gradient(to top, #5ee7df 0%, #b490ca 100%)', top: '#b490ca', bottom: '#5ee7df', logo: 'brightness(0) drop-shadow(0 0 12px rgba(40,40,80,0.2))', text: '#1a2a3a', email: '#607080', about: '#3a4a5a' },
+    { name: 'Wild Apple', bg: 'linear-gradient(to top, #d299c2 0%, #fef9d7 100%)', top: '#fef9d7', bottom: '#d299c2', logo: 'brightness(0) drop-shadow(0 0 12px rgba(100,40,70,0.15))', text: '#4a1a3a', email: '#a07090', about: '#6a3a5a' },
+    { name: 'Saint Petersburg', bg: 'linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)', top: '#f5f7fa', bottom: '#c3cfe2', logo: 'brightness(0) drop-shadow(0 0 10px rgba(0,0,0,0.08))', text: '#2a3040', email: '#8090a8', about: '#4a5068' },
+    { name: "Arielle's Smile", bg: 'radial-gradient(circle 248px at center, #16d9e3 0%, #30c7ec 47%, #46aef7 100%)', top: '#46aef7', bottom: '#46aef7', logo: 'brightness(0) drop-shadow(0 0 12px rgba(0,40,80,0.2))', text: '#0a1a30', email: '#306090', about: '#1a3a50' },
+    { name: 'Plum Plate', bg: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', top: '#667eea', bottom: '#764ba2', logo: 'invert(1) brightness(2) drop-shadow(0 0 15px rgba(100,70,180,0.4))', text: '#f0e8ff', email: '#9080c0', about: '#c0b0e0' },
+    { name: 'Everlasting Sky', bg: 'linear-gradient(135deg, #fdfcfb 0%, #e2d1c3 100%)', top: '#fdfcfb', bottom: '#e2d1c3', logo: 'brightness(0) drop-shadow(0 0 10px rgba(0,0,0,0.08))', text: '#3a2a20', email: '#a09080', about: '#5a4a3a' },
+    { name: 'Happy Fisher', bg: 'linear-gradient(120deg, #89f7fe 0%, #66a6ff 100%)', top: '#89f7fe', bottom: '#89f7fe', logo: 'brightness(0) drop-shadow(0 0 12px rgba(0,30,100,0.2))', text: '#0a1a3a', email: '#305080', about: '#1a3050' },
+  ];
 
-      setTimeout(() => {
-        bgFront.style.transition = 'none';
-        bgFront.style.background = t.bg;
-        bgFront.style.opacity = '1';
-        logoFront.style.transition = 'none';
-        logoFront.style.filter = t.logo;
-        logoFront.style.opacity = '1';
-        logoBack.style.transition = 'none';
-        logoBack.style.opacity = '0';
+  (function initTheme() {
+    const t = themes[Math.floor(Math.random() * themes.length)];
+    const root = document.documentElement;
 
-        root.style.setProperty('--icon-gradient-old', t.bg);
-        proj.classList.remove('icon-crossfading');
+    // Background: gradient on html, solid fallbacks for safe areas
+    root.style.backgroundImage = t.bg.startsWith('#') ? 'none' : t.bg;
+    root.style.backgroundColor = t.top;
+    document.body.style.backgroundColor = t.bottom;
+    if (t.bg.startsWith('#')) root.style.backgroundColor = t.bg;
 
-        void bgFront.offsetHeight;
-        bgFront.style.transition = 'opacity 2.5s ease';
-        logoFront.style.transition = 'opacity 2.5s ease';
-        logoBack.style.transition = 'opacity 2.5s ease';
-        transitioning = false;
-      }, 2600);
-    }
+    // Theme color for iOS status bar
+    document.querySelectorAll('meta[name="theme-color"]').forEach(m => m.setAttribute('content', t.top));
 
-    setInterval(() => {
-      let next;
-      do { next = Math.floor(Math.random() * themes.length); } while (next === currentTheme);
-      currentTheme = next;
-      applyTheme(currentTheme);
-    }, 5000);
-  </script>
+    // Icon gradient overlay
+    root.style.setProperty('--icon-gradient', t.bg);
+
+    // Logo, text, email colors
+    document.querySelector('.logo').style.filter = t.logo;
+    document.querySelector('.mission').style.color = t.text;
+    document.querySelector('.email').style.color = t.email;
+    document.querySelector('.about-text').style.color = t.about;
+    document.getElementById('pdName').style.color = t.text;
+    document.getElementById('pdBlurb').style.color = t.about;
+    document.getElementById('pdLinks').style.color = t.about;
+    document.querySelector('.close-btn').style.color = t.text;
+  })();
+</script>
 </body>
 </html>
