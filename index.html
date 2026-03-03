@@ -105,6 +105,113 @@
       transition: color 2.5s ease, opacity 0.6s ease;
     }
 
+    .projects {
+      display: flex;
+      gap: 1.5rem;
+      align-items: center;
+      justify-content: center;
+      transition: opacity 0.6s ease;
+    }
+
+    .project-link {
+      position: relative;
+      display: block;
+      width: clamp(48px, 10vw, 64px);
+      height: clamp(48px, 10vw, 64px);
+      border-radius: 16px;
+      overflow: hidden;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      cursor: pointer;
+    }
+
+    .project-link:hover {
+      transform: scale(1.1);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    }
+
+    .project-icon {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      filter: grayscale(1) contrast(1.1);
+      transition: filter 0.3s ease;
+    }
+
+    .project-link:hover .project-icon {
+      filter: none;
+    }
+
+    .project-link::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--icon-gradient, #888);
+      mix-blend-mode: color;
+      opacity: var(--icon-overlay-opacity, 1);
+      transition: opacity 0.3s ease;
+      pointer-events: none;
+    }
+
+    .project-link:hover::after {
+      opacity: 0 !important;
+    }
+
+    .content.expanded .projects {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .project-detail {
+      position: absolute;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.5rem;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.6s ease;
+    }
+
+    .project-detail.visible {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .project-detail-icon {
+      width: clamp(100px, 25vw, 140px);
+      height: clamp(100px, 25vw, 140px);
+      border-radius: 28px;
+      object-fit: cover;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.3);
+    }
+
+    .project-detail-name {
+      font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+      font-weight: 400;
+      letter-spacing: 0.03em;
+      color: #ffffff;
+      transition: color 2.5s ease;
+    }
+
+    .project-detail-blurb {
+      width: min(440px, 85vw);
+      font-size: clamp(0.85rem, 1.8vw, 0.95rem);
+      font-weight: 300;
+      line-height: 1.7;
+      color: #aaa;
+      text-align: center;
+      letter-spacing: 0.02em;
+      transition: color 2.5s ease;
+    }
+
+    .content.project-open .logo-wrap,
+    .content.project-open .mission,
+    .content.project-open .projects {
+      opacity: 0;
+      pointer-events: none;
+    }
+
     .about {
       width: min(520px, 85vw);
       padding: 0 1.5rem;
@@ -170,6 +277,16 @@
       <img src="logo.svg" alt="Burning Bush" class="logo logo-front" id="logoFront">
     </div>
     <p class="mission">behold, the bush was burning, yet it was not consumed.</p>
+    <div class="projects">
+      <a href="#" class="project-link" data-project="lavajump"><img src="projects/lavajump.png" alt="Lava Jump" class="project-icon"></a>
+      <a href="#" class="project-link" data-project="bookluv"><img src="projects/bookluv.png" alt="BookLuv" class="project-icon"></a>
+      <a href="#" class="project-link" data-project="reveal"><img src="projects/reveal.png" alt="Reveal" class="project-icon"></a>
+    </div>
+    <div class="project-detail" id="projectDetail">
+      <img class="project-detail-icon" id="projectDetailIcon" src="" alt="">
+      <p class="project-detail-name" id="projectDetailName"></p>
+      <p class="project-detail-blurb" id="projectDetailBlurb"></p>
+    </div>
     <p class="about" id="about">We build the things we feel like building, with or without AI we guess. We enjoy the process and the outcomes and choose the things we'll be proud telling other people about, big or small (the things, not the people. The people's size don't matter to us at this point). And who is "we"!? for heaven's sake.</p>
   </main>
   <script>
@@ -188,6 +305,49 @@
       expanded = false;
       content.classList.remove('expanded');
       about.classList.remove('visible');
+    });
+
+    const projectData = {
+      lavajump: {
+        name: 'Lava Jump',
+        icon: 'projects/lavajump.png',
+        blurb: 'A volcanic endless runner where timing is everything. Jump between erupting platforms, dodge molten lava, and see how far you can go before the heat catches up.'
+      },
+      bookluv: {
+        name: 'BookLuv',
+        icon: 'projects/bookluv.png',
+        blurb: 'Your personal book companion. Track what you read, discover what to read next, and share your taste with friends who actually care about books.'
+      },
+      reveal: {
+        name: 'Reveal',
+        icon: 'projects/reveal.png',
+        blurb: 'See what\'s hidden in plain sight. A creative tool that peels back layers of content to reveal the story underneath — part art, part utility, fully addictive.'
+      }
+    };
+
+    const detailEl = document.getElementById('projectDetail');
+    const detailIcon = document.getElementById('projectDetailIcon');
+    const detailName = document.getElementById('projectDetailName');
+    const detailBlurb = document.getElementById('projectDetailBlurb');
+
+    document.querySelectorAll('.project-link').forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const key = link.dataset.project;
+        const proj = projectData[key];
+        if (!proj) return;
+        detailIcon.src = proj.icon;
+        detailIcon.alt = proj.name;
+        detailName.textContent = proj.name;
+        detailBlurb.textContent = proj.blurb;
+        content.classList.add('project-open');
+        detailEl.classList.add('visible');
+      });
+    });
+
+    detailEl.addEventListener('click', () => {
+      content.classList.remove('project-open');
+      detailEl.classList.remove('visible');
     });
   </script>
   <div class="email-wrapper">
@@ -258,6 +418,14 @@
       const t = themes[i];
       transitioning = true;
 
+      const root = document.documentElement;
+      root.style.setProperty('--icon-overlay-opacity', '0');
+
+      setTimeout(() => {
+        root.style.setProperty('--icon-gradient', t.bg);
+        root.style.setProperty('--icon-overlay-opacity', '1');
+      }, 1250);
+
       bgBack.style.background = t.bg;
 
       logoBack.style.transition = 'none';
@@ -273,6 +441,8 @@
       missionEl.style.color = t.text;
       aboutEl2.style.color = t.about;
       emailEl.style.color = t.email;
+      detailName.style.color = t.text;
+      detailBlurb.style.color = t.about;
 
       setTimeout(() => {
         bgFront.style.transition = 'none';
