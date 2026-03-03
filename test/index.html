@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>Burning Bush — We build the things we feel like building</title>
   <meta name="description" content="Burning Bush is a creative studio that builds apps, tools, and things we're proud to tell people about. Lava Jump, BookLuv, Reveal, and whatever the wind carries next.">
   <meta name="keywords" content="Burning Bush, creative studio, Lava Jump, BookLuv, Reveal, Figma plugin, indie apps, mobile apps, web apps">
@@ -61,7 +61,10 @@
     }
 
     html, body {
+      width: 100%;
       height: 100%;
+      background: #050505;
+      overflow-x: hidden;
     }
 
     body {
@@ -70,10 +73,11 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      min-height: 100vh;
+      min-height: 100dvh;
       font-family: 'Sono', sans-serif;
       overflow-x: hidden;
       position: relative;
+      overscroll-behavior-y: none;
     }
 
     .bg-layer {
