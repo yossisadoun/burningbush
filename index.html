@@ -89,7 +89,7 @@
       position: fixed;
       inset: 0;
       display: flex;
-      align-items: center;
+      align-items: flex-start;
       justify-content: center;
       padding: 2rem;
       opacity: 0;
@@ -221,10 +221,12 @@
 
     .projects {
       display: flex;
+      flex-wrap: wrap;
       gap: 1.05rem;
       align-items: center;
       justify-content: center;
       margin-top: 3rem;
+      max-width: min(600px, 80vw);
       transition: opacity 0.6s ease;
     }
 
@@ -371,7 +373,14 @@
     }, 600);
   }
 
-  document.getElementById('logoWrap').addEventListener('click', () => showOverlay(about));
+  document.getElementById('logoWrap').addEventListener('click', () => {
+    const logoRect = document.getElementById('logoWrap').getBoundingClientRect();
+    const aboutText = document.querySelector('.about-text');
+    const logoCenterY = logoRect.top + logoRect.height / 2;
+    aboutText.style.marginTop = logoCenterY + 'px';
+    aboutText.style.transform = 'translateY(-50%)';
+    showOverlay(about);
+  });
 
   document.querySelectorAll('.project-wrap').forEach(wrap => {
     wrap.addEventListener('click', () => {
