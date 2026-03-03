@@ -345,9 +345,7 @@
       opacity: 0;
       visibility: hidden;
       pointer-events: none;
-      background: rgba(10, 10, 10, 0.28);
-      backdrop-filter: blur(2px);
-      -webkit-backdrop-filter: blur(2px);
+      background: #050505;
       transition: opacity 0.35s ease, visibility 0s linear 0.35s;
     }
 
@@ -361,8 +359,6 @@
       color: #aaa;
       text-align: center;
       letter-spacing: 0.02em;
-      border-radius: 16px;
-      background: rgba(0, 0, 0, 0.08);
     }
 
     .about .overlay-close {
@@ -624,6 +620,7 @@
       missionEl.style.color = t.text;
       aboutEl2.style.transition = 'none';
       aboutEl2.style.color = t.about;
+      aboutEl2.style.background = t.bg;
       emailEl.style.transition = 'none';
       emailEl.style.color = t.email;
       detailName.style.transition = 'none';
@@ -637,7 +634,7 @@
       bgFront.style.transition = 'opacity 2.5s ease';
       logoFront.style.transition = 'opacity 2.5s ease';
       missionEl.style.transition = 'color 2.5s ease, opacity 0.6s ease';
-      aboutEl2.style.transition = 'color 2.5s ease, opacity 0.6s ease';
+      aboutEl2.style.transition = 'color 2.5s ease, opacity 0.35s ease';
       emailEl.style.transition = 'color 2.5s ease, text-shadow 0.5s ease';
       detailName.style.transition = 'color 2.5s ease';
       detailBlurb.style.transition = 'color 2.5s ease';
@@ -669,6 +666,7 @@
 
       missionEl.style.color = t.text;
       aboutEl2.style.color = t.about;
+      aboutEl2.style.background = t.bg;
       emailEl.style.color = t.email;
       detailName.style.color = t.text;
       detailBlurb.style.color = t.about;
