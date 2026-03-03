@@ -21,7 +21,7 @@
   <meta name="twitter:description" content="A creative studio that builds apps, tools, and things we're proud to tell people about.">
   <meta name="twitter:image" content="https://burning-bush.com/logo.svg">
 
-  <meta name="theme-color" content="#050505">
+  <meta name="theme-color" content="#050505" id="themeColorMeta">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
@@ -82,9 +82,13 @@
 
     .bg-layer {
       position: fixed;
-      inset: 0;
+      top: calc(-1 * env(safe-area-inset-top, 0px));
+      right: 0;
+      bottom: calc(-1 * env(safe-area-inset-bottom, 0px));
+      left: 0;
       z-index: 0;
       transition: opacity 2.5s ease;
+      will-change: opacity, transform;
     }
     .bg-back { opacity: 1; }
     .bg-front { opacity: 1; }
@@ -612,12 +616,19 @@
     const emailEl = document.querySelector('.email');
     const bgFront = document.getElementById('bgFront');
     const bgBack = document.getElementById('bgBack');
+    const themeColorMeta = document.getElementById('themeColorMeta');
+
+    function pickThemeColor(bgValue) {
+      const hex = (bgValue || '').match(/#(?:[0-9a-fA-F]{3}){1,2}/);
+      return hex ? hex[0] : '#050505';
+    }
 
     (function initTheme() {
       const t = themes[currentTheme];
       const root = document.documentElement;
       bgFront.style.transition = 'none';
       bgFront.style.background = t.bg;
+      if (themeColorMeta) themeColorMeta.setAttribute('content', pickThemeColor(t.bg));
       logoFront.style.transition = 'none';
       logoFront.style.filter = t.logo;
       missionEl.style.transition = 'none';
@@ -657,6 +668,7 @@
       proj.classList.add('icon-crossfading');
 
       bgBack.style.background = t.bg;
+      if (themeColorMeta) themeColorMeta.setAttribute('content', pickThemeColor(t.bg));
 
       logoBack.style.transition = 'none';
       logoBack.style.filter = t.logo;
