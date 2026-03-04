@@ -218,31 +218,33 @@
     .logo-wrap::before {
       content: '';
       position: absolute;
-      inset: 8%;
+      inset: 2%;
       z-index: -1;
       border-radius: 50%;
       pointer-events: none;
       background: radial-gradient(
         circle,
-        rgba(255, 255, 255, 0.16) 0%,
-        rgba(131, 56, 236, 0.2) 30%,
-        rgba(255, 0, 110, 0.14) 54%,
-        rgba(58, 134, 255, 0) 76%
+        rgba(255, 255, 255, 0.24) 0%,
+        rgba(131, 56, 236, 0.34) 28%,
+        rgba(255, 0, 110, 0.24) 52%,
+        rgba(58, 134, 255, 0.06) 72%,
+        rgba(58, 134, 255, 0) 84%
       );
-      opacity: 0.55;
-      transform: scale(0.985);
-      filter: blur(12px);
+      opacity: 0.72;
+      transform: scale(0.96);
+      filter: blur(18px);
       will-change: transform, opacity;
-      animation: logoGlowBreathe 9s ease-in-out infinite alternate;
+      animation: logoGlowBreathe 4.8s ease-in-out infinite alternate;
     }
 
     @keyframes logoGlowBreathe {
-      0% { opacity: 0.42; transform: scale(0.975); }
-      100% { opacity: 0.68; transform: scale(1.02); }
+      0% { opacity: 0.5; transform: scale(0.93); }
+      100% { opacity: 0.9; transform: scale(1.06); }
     }
 
     @media (prefers-reduced-motion: reduce) {
-      .logo-wrap::before { animation: none; }
+      .logo-wrap::before,
+      .logo { animation: none; }
     }
 
     .logo {
@@ -251,8 +253,26 @@
       display: block;
       filter:
         brightness(0)
-        drop-shadow(0 0 12px rgba(80,30,100,0.2));
+        drop-shadow(0 0 16px rgba(131,56,236,0.28))
+        drop-shadow(0 0 34px rgba(255,0,110,0.18));
       transition: filter 3s ease;
+      animation: logoFilterPulse 4.8s ease-in-out infinite alternate;
+      will-change: filter;
+    }
+
+    @keyframes logoFilterPulse {
+      0% {
+        filter:
+          brightness(0)
+          drop-shadow(0 0 12px rgba(131,56,236,0.2))
+          drop-shadow(0 0 24px rgba(255,0,110,0.12));
+      }
+      100% {
+        filter:
+          brightness(0)
+          drop-shadow(0 0 22px rgba(131,56,236,0.4))
+          drop-shadow(0 0 48px rgba(255,0,110,0.26));
+      }
     }
 
     .projects {
