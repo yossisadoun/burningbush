@@ -26,6 +26,7 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔥</text></svg>">
+  <link rel="preload" as="image" href="../logo.svg" type="image/svg+xml">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -423,20 +424,20 @@
   <main class="content">
     <h1 class="sr-only">Burning Bush — Creative Studio</h1>
     <div class="logo-wrap" id="logoWrap">
-      <img src="../logo.svg" alt="" class="logo logo-back" id="logoBack">
-      <img src="../logo.svg" alt="Burning Bush" class="logo logo-front" id="logoFront">
+      <img src="../logo.svg" alt="" class="logo logo-back" id="logoBack" width="1024" height="1024" decoding="async">
+      <img src="../logo.svg" alt="Burning Bush" class="logo logo-front" id="logoFront" width="1024" height="1024" fetchpriority="high" decoding="async">
     </div>
     <p class="mission">behold, the bush was burning, yet it was not consumed.</p>
     <div class="projects">
-      <a href="#" class="project-link" data-project="lavajump"><img src="../projects/lavajump.png" alt="Lava Jump" class="project-icon"></a>
-      <a href="#" class="project-link" data-project="bookluv"><img src="../projects/bookluv.png" alt="BookLuv" class="project-icon"></a>
-      <a href="#" class="project-link" data-project="reveal"><img src="../projects/reveal.png" alt="Reveal" class="project-icon"></a>
+      <a href="#" class="project-link" data-project="lavajump"><img src="../projects/lavajump.png" alt="Lava Jump" class="project-icon" width="500" height="500" loading="lazy" decoding="async"></a>
+      <a href="#" class="project-link" data-project="bookluv"><img src="../projects/bookluv.png" alt="BookLuv" class="project-icon" width="500" height="500" loading="lazy" decoding="async"></a>
+      <a href="#" class="project-link" data-project="reveal"><img src="../projects/reveal.png" alt="Reveal" class="project-icon" width="500" height="500" loading="lazy" decoding="async"></a>
     </div>
     <div class="project-detail" id="projectDetail">
       <button class="overlay-close" id="projectCloseBtn" aria-label="Close project details">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg>
       </button>
-      <img class="project-detail-icon" id="projectDetailIcon" src="" alt="">
+      <img class="project-detail-icon" id="projectDetailIcon" src="" alt="" width="500" height="500" decoding="async">
       <p class="project-detail-name" id="projectDetailName"></p>
       <p class="project-detail-blurb" id="projectDetailBlurb"></p>
       <div class="project-detail-links" id="projectDetailLinks"></div>

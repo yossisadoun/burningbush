@@ -28,6 +28,7 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <link rel="icon" href="favicon.png" type="image/png">
+  <link rel="preload" as="image" href="logo.svg" type="image/svg+xml" fetchpriority="high">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -313,13 +314,13 @@
   <div class="loader" id="loader"><div class="loader-bar"></div></div>
   <div class="content" id="content">
     <div class="logo-wrap" id="logoWrap">
-      <img src="logo.svg" alt="Burning Bush" class="logo">
+      <img src="logo.svg" alt="Burning Bush" class="logo" width="1024" height="1024" fetchpriority="high" decoding="async">
     </div>
     <p class="mission">behold, the bush was burning, yet it was not consumed.</p>
     <div class="projects">
-      <div class="project-wrap" data-project="lavajump"><img src="projects/lavajump_1_1x.webp" alt="Lava Jump" class="project-icon"></div>
-      <div class="project-wrap" data-project="bookluv"><img src="projects/bookluv_1_1x.webp" alt="BookLuv" class="project-icon"></div>
-      <div class="project-wrap" data-project="reveal"><img src="projects/reveal_1_1x.webp" alt="Reveal" class="project-icon"></div>
+      <div class="project-wrap" data-project="lavajump"><img src="projects/lavajump_1_1x.webp" alt="Lava Jump" class="project-icon" width="500" height="500" loading="lazy" decoding="async"></div>
+      <div class="project-wrap" data-project="bookluv"><img src="projects/bookluv_1_1x.webp" alt="BookLuv" class="project-icon" width="500" height="500" loading="lazy" decoding="async"></div>
+      <div class="project-wrap" data-project="reveal"><img src="projects/reveal_1_1x.webp" alt="Reveal" class="project-icon" width="500" height="500" loading="lazy" decoding="async"></div>
     </div>
     <a href="mailto:yossi@burning-bush.com" class="email">yossi@burning-bush.com</a>
   </div>
@@ -327,7 +328,7 @@
     <p class="overlay-text about-text">We build the things we feel like building, with or without AI we guess. We enjoy the process and the outcomes and choose the things we'll be proud telling other people about, big or small (the things, not the people. The people's size don't matter to us at this point). And who is "we"!? for heaven's sake.</p>
   </div>
   <div class="project-detail" id="projectDetail">
-    <img class="project-detail-icon" id="pdIcon" src="" alt="">
+    <img class="project-detail-icon" id="pdIcon" src="" alt="" width="500" height="500" decoding="async">
     <p class="project-detail-name" id="pdName"></p>
     <p class="overlay-text" id="pdBlurb"></p>
     <div class="project-detail-links" id="pdLinks"></div>
