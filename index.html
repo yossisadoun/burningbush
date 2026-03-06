@@ -294,6 +294,15 @@
       color: #2a1a3a;
     }
 
+    .join {
+      margin-top: 0.6rem;
+      font-size: 0.75rem;
+      font-weight: 300;
+      letter-spacing: 0.06em;
+      opacity: 0.45;
+      transition: opacity 0.3s ease;
+    }
+
     .mission {
       font-size: clamp(1.25rem, 3vw, 1.75rem);
       font-weight: 300;
@@ -346,7 +355,8 @@
       <div class="project-wrap" data-project="bookluv"><img src="projects/bookluv_1_1x.webp" alt="BookLuv" class="project-icon" width="500" height="500" loading="lazy" decoding="async"></div>
       <div class="project-wrap" data-project="reveal"><img src="projects/reveal_1_1x.webp" alt="Reveal" class="project-icon" width="500" height="500" loading="lazy" decoding="async"></div>
     </div>
-    <a href="mailto:yossi@burning-bush.com" class="email">yossi@burning-bush.com</a>
+    <a href="mailto:yossi@burning-bush.com?subject=I%20hear%20it's%20free%20to%20join%20you!" class="email">yossi@burning-bush.com</a>
+    <p class="join">join us, it's free!</p>
   </div>
   <div class="about" id="about">
     <p class="overlay-text about-text">We build the things we feel like building, with or without AI we guess. We enjoy the process and the outcomes and choose the things we'll be proud telling other people about, big or small (the things, not the people. The people's size don't matter to us at this point). And who is "we"!? for heaven's sake.</p>
@@ -503,6 +513,7 @@
 
     document.querySelector('.mission').style.color = t.text;
     document.querySelector('.email').style.color = t.text;
+    document.querySelector('.join').style.color = t.text;
     document.querySelector('.about-text').style.color = t.about;
     document.getElementById('pdName').style.color = t.text;
     document.getElementById('pdBlurb').style.color = t.about;
