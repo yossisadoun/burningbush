@@ -133,11 +133,29 @@
       pointer-events: auto;
     }
 
-    .project-detail-icon {
+    .project-detail-icon-wrap {
+      position: relative;
       width: clamp(100px, 25vw, 140px);
       height: clamp(100px, 25vw, 140px);
       border-radius: 28px;
+      overflow: hidden;
+    }
+
+    .project-detail-icon-wrap::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 28px;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.35);
+      pointer-events: none;
+    }
+
+    .project-detail-icon {
+      width: 100%;
+      height: 100%;
+      border-radius: 28px;
       object-fit: cover;
+      display: block;
     }
 
     .project-detail-name {
@@ -239,10 +257,16 @@
       height: clamp(58px, 12vw, 77px);
       border-radius: 16px;
       overflow: hidden;
+      transition: transform 0.15s ease;
     }
 
-    .project-wrap {
-      transition: transform 0.15s ease;
+    .project-wrap::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 16px;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.35);
+      pointer-events: none;
     }
 
     .project-wrap:active {
@@ -328,7 +352,7 @@
     <p class="overlay-text about-text">We build the things we feel like building, with or without AI we guess. We enjoy the process and the outcomes and choose the things we'll be proud telling other people about, big or small (the things, not the people. The people's size don't matter to us at this point). And who is "we"!? for heaven's sake.</p>
   </div>
   <div class="project-detail" id="projectDetail">
-    <img class="project-detail-icon" id="pdIcon" src="" alt="" width="500" height="500" decoding="async">
+    <div class="project-detail-icon-wrap"><img class="project-detail-icon" id="pdIcon" src="" alt="" width="500" height="500" decoding="async"></div>
     <p class="project-detail-name" id="pdName"></p>
     <p class="overlay-text" id="pdBlurb"></p>
     <div class="project-detail-links" id="pdLinks"></div>
@@ -468,12 +492,14 @@
     // Logo, text, email colors
     document.querySelector('.logo').style.filter = t.logo;
 
-    // Extract drop-shadows from logo filter and apply on icons (50% softer)
+    // Extract drop-shadows from logo filter and apply on icons
     const glowFilter = (t.logo.match(/drop-shadow\([^)]+\)/g) || []).join(' ');
-    const softGlow = glowFilter.replace(/rgba\(([^)]+),\s*([\d.]+)\)/g, (m, rgb, a) =>
-      'rgba(' + rgb + ', ' + Math.min(parseFloat(a) * 1.5, 1) + ')');
+    const softGlow = glowFilter
+      .replace(/(\d+)px/g, (m, v) => Math.round(v * 0.7) + 'px')
+      .replace(/rgba\(([^)]+),\s*([\d.]+)\)/g, (m, rgb, a) =>
+        'rgba(' + rgb + ', ' + Math.min(parseFloat(a) * 1.2, 1) + ')');
     document.querySelectorAll('.project-wrap').forEach(w => w.style.filter = softGlow);
-    document.querySelector('.project-detail-icon').style.filter = softGlow;
+    document.querySelector('.project-detail-icon-wrap').style.filter = softGlow;
 
     document.querySelector('.mission').style.color = t.text;
     document.querySelector('.email').style.color = t.text;
