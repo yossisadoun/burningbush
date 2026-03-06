@@ -78,7 +78,7 @@
     }
 
     .content > * {
-      transition: opacity 0.6s ease;
+      transition: opacity 0.3s ease;
     }
 
     .content.faded > * {
@@ -95,7 +95,7 @@
       padding: 2rem;
       opacity: 0;
       pointer-events: none;
-      transition: opacity 0.6s ease;
+      transition: opacity 0.3s ease;
       z-index: 10;
     }
 
@@ -124,7 +124,7 @@
       padding: 2rem;
       opacity: 0;
       pointer-events: none;
-      transition: opacity 0.6s ease;
+      transition: opacity 0.3s ease;
       z-index: 10;
     }
 
@@ -208,7 +208,7 @@
       padding: 3rem;
       margin: -1rem;
       overflow: visible;
-      transition: opacity 0.6s ease;
+      transition: opacity 0.3s ease;
       -webkit-tap-highlight-color: transparent;
     }
 
@@ -230,7 +230,7 @@
       justify-content: center;
       margin-top: 3rem;
       max-width: min(600px, 80vw);
-      transition: opacity 0.6s ease;
+      transition: opacity 0.3s ease;
     }
 
     .project-wrap {
@@ -263,7 +263,7 @@
       font-size: 0.875rem;
       font-weight: 300;
       letter-spacing: 0.08em;
-      transition: color 0.3s ease, opacity 0.6s ease;
+      transition: color 0.3s ease, opacity 0.3s ease;
     }
 
     .email:hover {
@@ -277,7 +277,7 @@
       color: #3a1a4a;
       text-align: center;
       padding: 0 2rem;
-      transition: opacity 0.6s ease;
+      transition: opacity 0.3s ease;
     }
 
     .loader {
@@ -361,7 +361,7 @@
       overlay.classList.add('visible');
       closeBtn.style.opacity = '';
       closeBtn.style.pointerEvents = '';
-    }, 600);
+    }, 300);
   }
 
   function hideOverlay() {
@@ -371,10 +371,9 @@
     closeBtn.style.pointerEvents = 'none';
     activeOverlay = null;
     setTimeout(() => {
+      wraps.forEach(w => w.style.filter = w._savedFilter);
       content.classList.remove('faded');
-      // Re-apply glow filters after fade-in completes
-      setTimeout(() => wraps.forEach(w => w.style.filter = w._savedFilter), 650);
-    }, 600);
+    }, 300);
   }
 
   document.getElementById('logoWrap').addEventListener('click', () => {
@@ -472,7 +471,7 @@
     // Extract drop-shadows from logo filter and apply on icons (50% softer)
     const glowFilter = (t.logo.match(/drop-shadow\([^)]+\)/g) || []).join(' ');
     const softGlow = glowFilter.replace(/rgba\(([^)]+),\s*([\d.]+)\)/g, (m, rgb, a) =>
-      'rgba(' + rgb + ', ' + (parseFloat(a) * 0.5) + ')');
+      'rgba(' + rgb + ', ' + Math.min(parseFloat(a) * 1.5, 1) + ')');
     document.querySelectorAll('.project-wrap').forEach(w => w.style.filter = softGlow);
     document.querySelector('.project-detail-icon').style.filter = softGlow;
 
@@ -500,7 +499,7 @@
     const lineLeft = rect.left + rect.width * 0.22 - content.getBoundingClientRect().left;
     const lineTop = mission.offsetTop + mission.offsetHeight / 2;
     const cx = lineLeft + w / 2;
-    line.style.cssText = 'position:absolute;left:' + lineLeft + 'px;width:' + w + 'px;height:2px;top:' + lineTop + 'px;background:' + textColor + ';opacity:0;transition:opacity 0.6s ease;pointer-events:none;border-radius:1px';
+    line.style.cssText = 'position:absolute;left:' + lineLeft + 'px;width:' + w + 'px;height:2px;top:' + lineTop + 'px;background:' + textColor + ';opacity:0;transition:opacity 0.3s ease;pointer-events:none;border-radius:1px';
     content.style.position = 'relative';
     content.appendChild(line);
 
@@ -529,7 +528,7 @@
           if (p2 < 1) {
             requestAnimationFrame(shrink);
           } else {
-            // Replace dot with asterisk
+            // Replace dot with ×
             line.style.width = 'auto';
             line.style.height = 'auto';
             line.style.background = 'none';
@@ -541,6 +540,61 @@
             line.style.fontFamily = "'Sono', sans-serif";
             line.style.lineHeight = '1';
             line.textContent = '\u00d7';
+            line.style.cursor = 'pointer';
+            line.style.pointerEvents = 'auto';
+            line.addEventListener('click', function restore() {
+              line.removeEventListener('click', restore);
+              line.style.pointerEvents = 'none';
+              line.style.cursor = '';
+              // Revert to line
+              line.textContent = '';
+              line.style.width = '2px';
+              line.style.height = '2px';
+              line.style.background = textColor;
+              line.style.fontSize = '';
+              line.style.fontWeight = '';
+              line.style.fontFamily = '';
+              line.style.lineHeight = '';
+              line.style.color = '';
+              line.style.left = (cx - 1) + 'px';
+              line.style.transform = '';
+              // Expand dot to line
+              const s3 = performance.now();
+              function expand(now) {
+                const p3 = Math.min((now - s3) / 100, 1);
+                const e3 = p3 < 0.5 ? 2 * p3 * p3 : 1 - Math.pow(-2 * p3 + 2, 2) / 2;
+                const curW = 2 * (1 - e3) + w * e3;
+                line.style.width = curW + 'px';
+                line.style.left = (cx - curW / 2) + 'px';
+                if (p3 < 1) {
+                  requestAnimationFrame(expand);
+                } else {
+                  // Hide line instantly before text reveal
+                  line.style.transition = 'none';
+                  line.style.opacity = '0';
+                  // Unmask mission text
+                  const s4 = performance.now();
+                  function reveal(now) {
+                    const p4 = Math.min((now - s4) / duration, 1);
+                    const e4 = p4 < 0.5 ? 2 * p4 * p4 : 1 - Math.pow(-2 * p4 + 2, 2) / 2;
+                    const top = 50 * (1 - e4);
+                    const bottom = 50 + 50 * e4;
+                    const mask = 'linear-gradient(to bottom, transparent ' + top + '%, black ' + top + '%, black ' + bottom + '%, transparent ' + bottom + '%)';
+                    mission.style.webkitMaskImage = mask;
+                    mission.style.maskImage = mask;
+                    if (p4 < 1) {
+                      requestAnimationFrame(reveal);
+                    } else {
+                      mission.style.webkitMaskImage = '';
+                      mission.style.maskImage = '';
+                      line.remove();
+                    }
+                  }
+                  requestAnimationFrame(reveal);
+                }
+              }
+              requestAnimationFrame(expand);
+            });
           }
         }
         requestAnimationFrame(shrink);
