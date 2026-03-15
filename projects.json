@@ -13,6 +13,8 @@
     "icon": "projects/bookluv_1_1x.webp",
     "blurb": "We kept finishing books and realizing we missed half the point. So we built a thing that gives you the full picture — videos, timelines, context, podcasts, the \u201cdid you know\u201d. Add a book, get the world around it.",
     "links": [
+      { "label": "App Store", "icon": "apple", "url": "https://apps.apple.com/us/app/book-luv/id6758586808" },
+      { "label": "Google Play", "icon": "android", "url": "https://play.google.com/store/apps/details?id=com.bookreview.app" },
       { "label": "Web", "icon": "globe", "url": "https://yossisadoun.github.io/book_review/" }
     ]
   },
