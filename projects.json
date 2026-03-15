@@ -26,5 +26,13 @@
       { "label": "Figma Plugin", "icon": "figma", "url": "https://www.figma.com/community/plugin/1603794604656686212/reveal-vector-path-animation" },
       { "label": "Demo File", "icon": "figma", "url": "https://www.figma.com/community/file/1607874854121101597/reveal-figma-plugin" }
     ]
+  },
+  "goldengoose": {
+    "name": "Golden Goose",
+    "icon": "projects/golden_goose_1_1x.webp",
+    "blurb": "My wife turned 40 and I needed a gift that said \u201cI pay attention.\u201d So I built her a point-and-click adventure game in the style of classic Sierra — pixel art, ridiculous puzzles, the works. Every room is an inside joke. Every item you pick up references something only she'd get. If you play it and nothing makes sense, that's working as intended. It's not for you. It's for her. Happy birthday, love.",
+    "links": [
+      { "label": "Web", "icon": "globe", "url": "https://github.com/yossisadoun/golden-goose" }
+    ]
   }
 }
